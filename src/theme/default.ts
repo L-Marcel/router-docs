@@ -36,10 +36,13 @@ export const theme = extendTheme({
         background: colors.primary[500],
       },
       body: {
-        bg: colors.primary[100],
+        bg: "white",
         h: "100vh",
         w: "100vw",
         overflow: "hidden"
+      },
+      "button": {
+        outline: "none !important"
       },
       "button:hover": {
         filter: "brightness(0.95)"
@@ -48,7 +51,8 @@ export const theme = extendTheme({
         bg: colors.primary[500]
       },
       "*:focus": {
-        boxShadow: "none !important"
+        boxShadow: "none !important",
+        outline: "none !important"
       },
       "input:focus": {
         boxShadow: "none !important"

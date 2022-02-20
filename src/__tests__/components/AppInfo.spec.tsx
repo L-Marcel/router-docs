@@ -1,12 +1,12 @@
 import { screen, render } from '@testing-library/react';
+import { AppInfo } from '../../components/AppInfo';
 import { AllProviders } from '../../contexts/AllProviders';
-import Main from '../../pages';
 import { theme } from '../../theme/default';
+import pk from "../../../package.json";
 
 let wrapper;
 
-
-describe("Index page", () => {
+describe("AppInfo component", () => {
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -21,6 +21,8 @@ describe("Index page", () => {
         dispatchEvent: jest.fn(),
       })),
     });
+
+    jest.mock("../../components/Button");
   });
 
   beforeEach(() => {
@@ -31,12 +33,16 @@ describe("Index page", () => {
     );
   });
 
-  it("should be able to render the page content", async() => {
-    render(<Main/>, { wrapper });
-    expect(await screen.findByTestId("title")).toBeInTheDocument();
-    expect(await screen.findByTestId("description")).toBeInTheDocument();
-    expect(await screen.findByTestId("layout")).toBeInTheDocument();
-    expect(await screen.findByTestId("app-info")).toBeInTheDocument();
-    expect(await screen.findAllByTestId("button")).toHaveLength(2);
+  it("should be able to render buttons with app information", async() => {
+    render(<AppInfo/>, { wrapper });
+
+    let github = await screen.findByTestId("rd-github");
+    let lmarcel = await screen.findByTestId("l-marcel");
+
+    expect(github).toBeInTheDocument();
+    expect(github).toHaveTextContent(`V${pk.version}`);
+
+    expect(lmarcel).toBeInTheDocument();
+    expect(lmarcel).toHaveTextContent("l-marcel");
   });
 });

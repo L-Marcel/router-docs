@@ -1,12 +1,11 @@
 import { screen, render } from '@testing-library/react';
 import { AllProviders } from '../../contexts/AllProviders';
-import Main from '../../pages';
+import Me from '../../pages/me';
 import { theme } from '../../theme/default';
 
 let wrapper;
 
-
-describe("Index page", () => {
+describe("Me page", () => {
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
       writable: true,
@@ -32,11 +31,17 @@ describe("Index page", () => {
   });
 
   it("should be able to render the page content", async() => {
-    render(<Main/>, { wrapper });
-    expect(await screen.findByTestId("title")).toBeInTheDocument();
-    expect(await screen.findByTestId("description")).toBeInTheDocument();
+    const user: User = { 
+      avatar: "https://avatars.githubusercontent.com/u/62476762?v=4", 
+      email: "example@gmail.com", 
+      username: "example",
+      createdAt: new Date() 
+    };
+
+    render(<Me user={user}/>, { wrapper });
+    expect(await screen.findByTestId("profile")).toBeInTheDocument();
+    expect(await screen.findByTestId("menu-group")).toBeInTheDocument();
     expect(await screen.findByTestId("layout")).toBeInTheDocument();
-    expect(await screen.findByTestId("app-info")).toBeInTheDocument();
-    expect(await screen.findAllByTestId("button")).toHaveLength(2);
+    expect(await screen.findAllByRole("icon-button")).toHaveLength(1);
   });
 });
