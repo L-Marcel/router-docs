@@ -65,7 +65,7 @@ function DefaultButton({
           whileHover={!isSmallVersion && {
             scale: .9,
             rotate: rotateOnHover,
-            borderRadius: rotateOnHover >= 0? "100%":undefined
+            borderRadius: rotateOnHover > 0? "100%":undefined
           }}
           whileTap={{
             scale: .8

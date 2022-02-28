@@ -50,6 +50,6 @@ describe("MenuGroup component", () => {
 
     buttons = await screen.findAllByRole("icon-button");
 
-    expect(buttons.length).toEqual(4);
+    expect(buttons.length).toEqual(5);
   });
 });

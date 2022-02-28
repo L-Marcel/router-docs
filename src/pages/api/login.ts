@@ -17,6 +17,6 @@ export default async function middleware(req: NextApiRequest, res: NextApiRespon
 
     return res.redirect("/me");
   } catch (error) {
-    return res.redirect("/");
+    return res.redirect(`/error?type=login`);
   };
 };

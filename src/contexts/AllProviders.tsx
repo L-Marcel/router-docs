@@ -1,4 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
+import { QueryClientProvider } from "react-query";
+import { AppProvider } from "./AppContext";
 
 const composeProviders = (...providers) => props => {
   return providers.reduceRight(
@@ -12,5 +14,7 @@ const composeProviders = (...providers) => props => {
 };
 
 export const AllProviders = composeProviders(
-  ChakraProvider
+  ChakraProvider,
+  QueryClientProvider,
+  AppProvider
 );

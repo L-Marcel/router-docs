@@ -3,6 +3,7 @@ import { RiArrowDropDownLine, RiArrowDropUpLine } from "react-icons/ri";
 import { Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import { MenuGroupButtons } from "./MenuGroupButtons";
+import { boxShadow } from "../../theme/effects/shadow";
 
 function MenuGroup() {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,8 +17,8 @@ function MenuGroup() {
       alignItems="center"
       justifyContent="flex-end"
       color="primary.800"
-      filter="drop-shadow(1px 1px 1px gray)"
       data-testid="menu-group"
+      {...boxShadow()}
     >
       { isOpen && <MenuGroupButtons/> }
       <Button

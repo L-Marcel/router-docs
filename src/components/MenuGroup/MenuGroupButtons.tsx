@@ -1,6 +1,7 @@
 import { BiExit } from "react-icons/bi";
 import { AiOutlinePlus } from "react-icons/ai";
 import { GiLifeBuoy } from "react-icons/gi";
+import { HiTemplate } from "react-icons/hi";
 import { Button } from "../Button";
 
 function MenuGroupButtons() {
@@ -31,10 +32,20 @@ function MenuGroupButtons() {
         isIconButton
         fontSize={20}
         rotateOnHover={90}
-        data-testid="menu-adddoc-button"
+        data-testid="menu-add-project-button"
         role="icon-button"
       >
-        add doc
+        add project
+      </Button>
+      <Button 
+        icon={HiTemplate}
+        isIconButton
+        fontSize={20}
+        rotateOnHover={90}
+        data-testid="menu-projects-button"
+        role="icon-button"
+      >
+        projects
       </Button>
     </>
   );
