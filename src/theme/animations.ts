@@ -28,6 +28,19 @@ const fadeToTop = {
   }
 };
 
+const fadeToRight = {
+  variants: {
+    hidden: { 
+      x: -20,
+      opacity: 0 
+    },
+    visible: {
+      x: 0,
+      opacity: 1
+    }
+  }
+};
+
 const expandToRight = {
   initial: "hidden",
   animate: "visible",
@@ -64,9 +77,53 @@ const expandToLeft = {
   }
 };
 
+const zeroGravity = {
+  initial: "start",
+  animate: "end",
+  variants: {
+    start: {
+      y: 0,
+      x: 0
+    },
+    end: {
+      y: 15,
+      x: 5,
+      transition: {
+        repeat: Infinity,
+        repeatType: "mirror",
+        duration: 5
+      }
+    }
+  },
+};
+
+const zeroGravityReverse = {
+  initial: "start",
+  animate: "end",
+  variants: {
+    start: {
+      y: 15,
+      x: 5
+    },
+    end: {
+      y: 0,
+      x: 0,
+      transition: {
+        repeat: Infinity,
+        repeatType: "mirror",
+        duration: 5
+      }
+    }
+  },
+};
+
+
 export {
   fadeCascate,
   fadeToTop,
+  fadeToRight,
   expandToRight,
-  expandToLeft
+  expandToLeft,
+  zeroGravity,
+  zeroGravityReverse
 };

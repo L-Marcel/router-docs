@@ -1,6 +1,7 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider } from "react-query";
 import { AppProvider } from "./AppContext";
+import { SessionProvider } from "next-auth/react";
 
 const composeProviders = (...providers) => props => {
   return providers.reduceRight(
@@ -16,5 +17,6 @@ const composeProviders = (...providers) => props => {
 export const AllProviders = composeProviders(
   ChakraProvider,
   QueryClientProvider,
+  SessionProvider,
   AppProvider
 );

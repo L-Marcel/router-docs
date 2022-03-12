@@ -35,6 +35,9 @@ export const theme = extendTheme({
       "::-webkit-scrollbar-thumb:hover": {
         background: colors.primary[600],
       },
+      ".chakra-select": {
+        paddingLeft: "5px"
+      },
       body: {
         bg: "white",
         h: "100vh",
@@ -60,6 +63,9 @@ export const theme = extendTheme({
       ".chakra-checkbox__control:not([data-checked])": {
         color: "var(--primary) !important",
         bgColor: "primary.100"
+      },
+      "select:invalid": {
+        color: "gray.400"
       }
     }
   }

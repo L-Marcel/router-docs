@@ -1,6 +1,6 @@
 import { screen, render } from '@testing-library/react';
 import { AllProviders } from '../../contexts/AllProviders';
-import Me from '../../pages/me';
+import Me from '../../pages/me/projects';
 import { theme } from '../../theme/default';
 
 let wrapper;
@@ -38,7 +38,7 @@ describe("Me page", () => {
       createdAt: new Date() 
     };
 
-    render(<Me user={user}/>, { wrapper });
+    render(<Me/>, { wrapper });
     expect(await screen.findByTestId("profile")).toBeInTheDocument();
     expect(await screen.findByTestId("menu-group")).toBeInTheDocument();
     expect(await screen.findByTestId("layout")).toBeInTheDocument();

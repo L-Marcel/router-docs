@@ -2,13 +2,13 @@ import { Avatar, Box, BoxProps, Text, useBreakpointValue } from "@chakra-ui/reac
 import { motion } from "framer-motion";
 import { fadeToTop } from "../theme/animations";
 
-declare interface ProfileProps extends BoxProps {
+interface ProfileProps extends BoxProps {
   user: User;
 };
 
 function Profile({ user, ...rest }: ProfileProps) {
   const isWideOrNormalVersion = useBreakpointValue({
-    sm: true,
+    md: true,
     base: false
   });
 
@@ -26,8 +26,8 @@ function Profile({ user, ...rest }: ProfileProps) {
     >
       <Avatar
         data-testid="avatar"
-        src={user.avatar}
-        name={user.username}
+        src={user.image}
+        name={user.name}
         borderColor="primary.600"
         w={50}
         h={50}
@@ -51,7 +51,7 @@ function Profile({ user, ...rest }: ProfileProps) {
           lineHeight="18px"
           as={motion.p}
           {...fadeToTop}
-        >{user.username}</Text>
+        >{user.name}</Text>
         <Text
           data-testid="email"
           whiteSpace="nowrap"

@@ -1,5 +1,8 @@
 module.exports = {
 	presets: [
-		'next/babel'
-	] 
+		"next/babel"
+	], 
+  plugins: [
+    "babel-plugin-superjson-next"
+  ]
 };

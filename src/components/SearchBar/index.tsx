@@ -1,12 +1,12 @@
 
 import { Box, Icon, Input, InputGroup, InputLeftElement, useBreakpointValue } from "@chakra-ui/react";
-import { IoMdAdd } from "react-icons/io";
 import { BiSearchAlt } from "react-icons/bi";
 import { useSearch } from "../../contexts/hooks/useSearch";
 import { Button } from "../Button";
+import { DebounceInput } from "react-debounce-input";
 
 function SearchBar() {
-  const { search, setSearch } = useSearch();
+  const { setSearch } = useSearch();
   const isWideOrNormalVersion = useBreakpointValue({
     md: true,
     base: false
@@ -23,7 +23,7 @@ function SearchBar() {
     >
       <InputGroup 
         size="md"
-        minW={[null, 200, 300, 400]}
+        minW={[null, 300, 200, 200, 300, 400]}
         maxW={["80%", "min-content"]}
         bgColor="white"
         color="gray.400"
@@ -42,21 +42,23 @@ function SearchBar() {
           />
         </InputLeftElement>
         <Input
+          as={DebounceInput}
           focusBorderColor="primary.400"
           pl="35px"
           placeholder="Search by name"
-          value={search}
-          onChange={e => setSearch(e.currentTarget.value)}
+          minLength={2}
+          debounceTimeout={500}
+          onChange={e => setSearch(e.target.value)}
         />
       </InputGroup>
       { isWideOrNormalVersion && <Button
         ml={5}
-        px="30px"
+        px={4}
         colorScheme="primary"
-        icon={IoMdAdd}
         display="flex"
         justifyContent="center"
         alignItems="center"
+        href="/me/projects/create"
       >
         add project
       </Button>}

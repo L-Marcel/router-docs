@@ -29,7 +29,11 @@ function DefaultButton({
   if(isIconButton) {
     return (
       <Box
-        position="relative"
+        position={rest.position ?? "relative"}
+        top={rest.top ?? undefined}
+        left={rest.left ?? undefined}
+        right={rest.right ?? undefined}
+        bottom={rest.bottom ?? undefined}
         display="flex"
         justifyContent="flex-end"
         alignItems="center"
@@ -72,6 +76,11 @@ function DefaultButton({
           }}
           {...fadeToTop}
           {...rest}
+          position="relative"
+          bottom={0}
+          left={0}
+          right={0}
+          top={0}
         />
       </Box>
     );

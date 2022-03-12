@@ -1,6 +1,6 @@
 import { ButtonProps as CButtonProps, Link } from "@chakra-ui/react";
 import { ReactNode } from "react";
-
+import NextLink from "next/link";
 import { IconType } from "react-icons";
 import { DefaultButton } from "./DefaultButton";
 
@@ -15,11 +15,21 @@ interface ButtonProps extends CButtonProps {
 function Button({ icon, children, href, ...rest }: ButtonProps) {
   if(href) {
     return (
-      <Link href={href} data-testid="link">
-        <DefaultButton icon={icon} {...rest}>
-          {children}
-        </DefaultButton>
-      </Link>
+      <NextLink
+        href={href}
+        passHref
+        data-testid="link"
+      >
+        <Link
+          _hover={{
+            textDecoration: null
+          }}
+        >
+          <DefaultButton icon={icon} {...rest}>
+            {children}
+          </DefaultButton>
+        </Link>
+      </NextLink>
     );
   };
 

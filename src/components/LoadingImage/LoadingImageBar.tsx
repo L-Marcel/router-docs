@@ -23,30 +23,34 @@ function LoadingImageBar({
   const [text, setText] = useState("");
 
   useEffect(() => {
+    let interval;
+
     if(percent < endPercent) {
       if(percent >= 38 && !showText) {
         setShowText(true);
       };
 
       if(autoIncrement) {
-        const interval = setInterval(() => {
+        interval = setInterval(() => {
           setPercent(p => p += increment);
           clearInterval(interval);
         }, 700);
       };
     } else {
-      const interval = setInterval(() => {
-        onEndLoading();
+      interval = setInterval(() => {
+        onEndLoading && onEndLoading();
         clearInterval(interval);
       }, 1500);
     };
 
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, [percent]);
 
   useEffect(() => {
+    let interval;
+
     if(showText) {
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         const values = {
           "Carregando.": "Carregando..",
           "Carregando..": "Carregando...",
@@ -59,15 +63,24 @@ function LoadingImageBar({
       }, 1000);
     };
 
-    return () => clearInterval();
+    return () => clearInterval(interval);
   }, [showText, text]);
 
   const realValue = percent < 20? 19:percent;
 
   return (
-    <svg style={{
-      zIndex: 5
-    }} id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 436.02 275.39" width="406" height="306">
+    <svg 
+      style={{
+        zIndex: 5
+      }} 
+      id="Layer_1" 
+      data-name="Layer 1" 
+      xmlns="http://www.w3.org/2000/svg" 
+      xmlnsXlink="http://www.w3.org/1999/xlink" 
+      viewBox="0 0 436.02 275.39" 
+      width="406" 
+      height="306"
+    >
       <motion.rect 
         x="8.74" y="145.63" 
         rx="23.59" 

@@ -1,0 +1,11 @@
+.bgHoverBefore {
+  &:hover::before {
+    filter: brightness(var(--bn)) !important;
+  }
+}
+
+.bgHoverCursorPointer {
+  &:hover::before {
+    cursor: pointer !important;
+  }
+}

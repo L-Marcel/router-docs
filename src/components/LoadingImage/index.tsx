@@ -37,7 +37,7 @@ function LoadingImage({
         }}
       />
       <Img 
-        src="assets/loading.svg"
+        src="/assets/loading.svg"
         position="absolute"
       />
     </Box>

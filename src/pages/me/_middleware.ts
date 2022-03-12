@@ -1,13 +1,15 @@
-import { checkCookies, getCookies } from "cookies-next";
-import { NextApiRequest } from "next";
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
-export default async function auth(req: NextApiRequest) {
-  const cookiesExists = checkCookies("token", { req }) && checkCookies("user", { req });
+export async function middleware(req: Req) {
+  const token = await getToken({
+    req,
+    secret: process.env.NEXTAUTH_SECRET
+  });
 
-  if(cookiesExists) {
-    return NextResponse.next();
+  if(!token) {
+    return NextResponse.redirect("/error?type=401");
   };
 
-  return NextResponse.redirect("/");
+  return NextResponse.next();
 };

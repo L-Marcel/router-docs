@@ -1,11 +1,16 @@
 import { Stack } from "@chakra-ui/react";
 import { Button } from "../components/Button";
-import { openUrl } from "../utils/openUrl";
 import { Banner } from "../components/Banner";
 import { AppInfo } from "../components/AppInfo";
 import { Layout } from "../components/Layout";
+import { getSession, signIn } from "next-auth/react";
+import { GetServerSideProps } from "next";
 
 function Main() {
+  function handleSignIn() {
+    signIn("github");
+  };
+
   return (
     <Layout
       title="Routerdocs: Autogen"
@@ -26,7 +31,7 @@ function Main() {
       >
         <Button 
           colorScheme="primary"
-          onClick={() => openUrl(`https://github.com/login/oauth/authorize?scope=user:email:repos&client_id=${process.env.NEXT_PUBLIC_GITHUB_CLIENT}`, "_self")}
+          onClick={handleSignIn}
         >
           Login with Github
         </Button>
@@ -35,6 +40,25 @@ function Main() {
       <AppInfo/>
     </Layout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async({
+  req
+}) => {
+  const session = await getSession({ req });
+
+  if(session) {
+    return {
+      redirect: {
+        destination: "/me/projects",
+        permanent: false
+      }
+    };
+  };
+
+  return {
+    props: {}
+  };
 };
 
 export default Main;

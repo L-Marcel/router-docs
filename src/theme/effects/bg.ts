@@ -1,10 +1,13 @@
 import { BoxProps } from "@chakra-ui/react";
 import { boxShadow } from "./shadow";
+import style from "../sass/bg.module.scss";
 
 interface BgOptions extends BoxProps { 
   hoverEffect?: boolean;
   cursorPointer?: boolean;
   stickyMode?: boolean;
+  hoverEffectInBefore?: boolean;
+  brightness?: number;
 };
 
 function bg({ 
@@ -14,6 +17,8 @@ function bg({
   cursorPointer = false, 
   borderRadius = 15,
   stickyMode = false,
+  hoverEffectInBefore = false,
+  brightness = 0.92,
   ...rest
 }: BgOptions) {
   return {
@@ -34,10 +39,16 @@ function bg({
       ...boxShadow(),
     },
     _hover: hoverEffect && {
-      filter: "brightness(0.92)",
+      filter: `brightness(${brightness})`,
       cursor: cursorPointer? "pointer":null
     },
-  };
+    css: {
+      "&": {
+        "--bn": `${brightness}`
+      }
+    },
+    className: hoverEffectInBefore && `${style.bgHoverBefore} ${cursorPointer? style.bgHoverCursorPointer:""}`
+  } as BoxProps;
 };
 
 export { bg };

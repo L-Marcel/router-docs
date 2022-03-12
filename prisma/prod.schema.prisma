@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String          @id @default(uuid())
+  username      String          @unique
+  email         String          @unique
+  createdAt     DateTime        @default(now())
+
+  projects      Project[]
+}
+
+model Project {
+  id            String          @id @default(uuid())
+  name          String
+  description   String          @default("")
+  repository    String
+  root          String          @default("/")
+  baseUrl       String?
+  createdAt     DateTime        @default(now())
+
+  routers       Route[] 
+
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String            
+}
+
+model Route {
+  id            String          @id @default(uuid())
+  name          String
+  url           String
+  description   String
+  type          String          @default("get")
+  position      Int             @default(0)
+  createdAt     DateTime        @default(now())
+
+  options       Option[]
+
+  project       Project         @relation(fields: [projectId], references: [id])
+  projectId     String
+}
+
+model Option {
+  id            String          @id @default(uuid())
+  type          String          @default("body")
+  name          String
+  value         String
+  validation    String?
+  isRequired    Boolean         @default(true)
+  position      Int             @default(0)
+  createdAt     DateTime        @default(now())
+
+  route         Route           @relation(fields: [routeId], references: [id])
+  routeId       String
+ 
+  arrayItems    Option[]        @relation("ArrayGroup")
+
+  arrayGroup    Option?         @relation("ArrayGroup", fields: [arrayGroupId], references: [id])
+  arrayGroupId  String?
+}

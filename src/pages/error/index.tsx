@@ -1,10 +1,10 @@
 import { Box, Heading, Img, Text, useBreakpointValue } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { GetServerSideProps } from "next";
-import { Button } from "../components/Button";
-import { Layout } from "../components/Layout";
-import { fadeToTop } from "../theme/animations";
-import { bg } from "../theme/effects/bg";
+import { Button } from "../../components/Button";
+import { Layout } from "../../components/Layout";
+import { fadeToTop } from "../../theme/animations";
+import { bg } from "../../theme/effects/bg";
 
 function Error({ error }) {
   const isWideOrNormalVersion = useBreakpointValue({
@@ -22,7 +22,7 @@ function Error({ error }) {
     >
       <Img 
         as={motion.img} 
-        src={`assets/${error.img}`}
+        src={`/assets/${error.img}`}
         position="absolute"
         right={[26, "30%"]}
         bottom={["2%", "6%", "8%", "11%"]}
@@ -82,25 +82,25 @@ export const getServerSideProps: GetServerSideProps = async({ query }) => {
   const error = {
     "login": {
       redirect: "/",
-      img: "protection.svg",
+      img: "/protection.svg",
       message: "Couldn't authenticate",
       description: "Our server couldn't authenticate with Github's services. Pleace, try again later. If the problem continue, contact us."
     },
     "404": {
-      redirect: "/me",
-      img: "404.svg", 
+      redirect: "/me/projects",
+      img: "/404.svg", 
       message: "We not found the page",
       description: "Our server refused to render this page. If the problem continue, contact us." 
     },
     "408": {
-      redirect: "/me",
-      img: "data.svg", 
+      redirect: "/me/projects",
+      img: "/data.svg", 
       message: "Request timeout",
       description: "Our server is taking a long time to respond. Check your network and if the problem continue, contact us." 
     },
     "400": {
-      redirect: "/me",
-      img: "connection.svg", 
+      redirect: "/me/projects",
+      img: "/connection.svg", 
       message: "We received a bad request",
       description: "Our server received an stranger request. Please, try again later. If the problem continue, contact us."
     },
