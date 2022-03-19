@@ -1,4 +1,5 @@
 import { Projects } from "../../../models/projects";
+import { ProjectVersions } from "../../../models/projectVersions";
 import { withMiddleware } from "../../../services/middlewares";
 
 async function update(req: Req, res: Res) {
@@ -24,10 +25,21 @@ async function find(req: Req, res: Res) {
   const { id } = req.query;
 
   const project = await Projects.find({ 
-    id: String(id)
+    id: String(id),
   });
 
-  return res.status(200).json(project);
+  const versions = await ProjectVersions.list({
+    project: {
+      id: String(id)
+    }
+  });
+
+  console.log(versions);
+
+  return res.status(200).json({
+    ...project,
+    versions
+  });
 };
 
 export default async function handler(req: Req, res: Res) {

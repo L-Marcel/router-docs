@@ -1,21 +1,40 @@
+import { Prisma } from "@prisma/client";
 import { Accounts } from "../models/accounts";
+import { ProjectVersions } from "../models/projectVersions";
 import { Routes } from "../models/routes";
 import { Github } from "../services/github";
+import { dateFormat } from "./dateFormat";
 
-export async function projectFormat(p: Project, authenticatedUserId: string, withCount = true): Promise<Project> {
+export async function projectFormat(
+  p: Project,
+  authenticatedUserId: string, 
+  {
+    getVersions = true, 
+    getCount = true,
+  },
+  versions?: Prisma.ProjectVersionCreateNestedManyWithoutProjectInput,
+) {
   const { access_token: token } = await Accounts.find({
     user: {
       id: authenticatedUserId,
     }
   });
 
-  const routes = await Routes.list({
+  const projectVersions = getVersions? await ProjectVersions.list({
     project: {
       id: p.id
     }
+  }):versions;
+
+  const routes = await Routes.list({
+    projectVersion: {
+      project: {
+        id: p.id
+      }
+    }
   });
 
-  const counts = withCount? routes.reduce<RouteTypesCount>((c, r) => {
+  const counts = getCount? routes.reduce<RouteTypesCount>((c, r) => {
     ++c[`${r.type}s`];
     return c;
   }, {
@@ -35,11 +54,8 @@ export async function projectFormat(p: Project, authenticatedUserId: string, wit
     formattedDescription: p.description.slice(0, 213) + (p.description.length > 213? "...":""),
     haveExpress,
     havePrisma,
-    formattedCreatedAt: new Intl.DateTimeFormat("en-us", {
-      day: "2-digit",
-      month: "long",
-      year: "numeric"
-    }).format(p.createdAt),
-    ...counts
+    formattedCreatedAt: dateFormat(p.createdAt),
+    ...counts,
+    versions: projectVersions
   };
 };

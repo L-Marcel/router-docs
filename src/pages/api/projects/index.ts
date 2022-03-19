@@ -1,5 +1,6 @@
 import { Projects } from "../../../models/projects";
 import { withMiddleware } from "../../../services/middlewares";
+import { dateFormat } from "../../../utils/dateFormat";
 
 async function list(req: ReqWithUser, res: Res) {
   const { page, itemsPerPage, name } = req.query;
@@ -44,11 +45,17 @@ async function list(req: ReqWithUser, res: Res) {
 };
 
 async function create(req: ReqWithUser, res: Res) {
-  const data = req.body;
+  const { version, ...data } = req.body;
   const { id } = req.user;
 
   const projectCreated = await Projects.create({
     ...data,
+    versions: {
+      create: {
+        version,
+        formattedCreatedAt: dateFormat(new Date())
+      }
+    },
     user: {
       connect: {
         id

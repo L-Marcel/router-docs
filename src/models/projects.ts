@@ -4,12 +4,15 @@ import { projectFormat } from "../utils/projectFormat";
 
 export class Projects {
   static async create(project: Prisma.ProjectCreateInput, userId: string) {
-    const formattedProject = await projectFormat({ ...project } as any, userId, false);
+    const formattedProject = await projectFormat({ ...project } as any, userId, {
+      getCount: false,
+      getVersions: false,
+    }, project.versions);
 
     return await db.project.create({
       data: {
         ...formattedProject
-      }
+      },
     });
   };
   static async find(where: Prisma.ProjectWhereInput) {
@@ -20,6 +23,9 @@ export class Projects {
   static async list(where?: Prisma.ProjectWhereInput) {
     return await db.project.findMany({
       where,
+      include: {
+        versions: true
+      },
       orderBy: {
         createdAt: "desc"
       }

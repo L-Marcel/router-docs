@@ -1,4 +1,4 @@
-import { FormControl, Stack} from "@chakra-ui/react";
+import { FormControl, Stack, Tag, Text} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Input } from "../Input";
 import { MdDriveFileRenameOutline } from "react-icons/md";
@@ -85,7 +85,6 @@ function CreateProjectForm() {
           {...register("name")}
         />
         <Select
-          onChange={() => {}}
           options={
             isLoadingRepositories?
               [{ value: "", label: "Loading...", color: "var(--chakra-colors-primary-500)", isDisabled: true }]:
@@ -99,6 +98,20 @@ function CreateProjectForm() {
               };
             })
           }
+          labelFormat={({ label }) => {
+            const [version, text] = label.split("#")
+            return (
+              <Text>
+                <Tag 
+                  mr={2}
+                  colorScheme="primary"
+                >
+                  {version}
+                </Tag>
+                {text}
+              </Text>
+            );
+          }}
           borderRadius={6}
           error={errors["repository"]?.message}
           register={register("repository")}

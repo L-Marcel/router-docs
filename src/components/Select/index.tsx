@@ -2,15 +2,17 @@ import { Box, BoxProps, FormHelperText, Tag, Text } from "@chakra-ui/react";
 import ReactSelect, { StylesConfig } from "react-select";
 import { motion } from "framer-motion";
 import { fadeToRight } from "../../theme/animations";
-import { createProjectFormStyle } from "../../theme/select/createProjectFormStyle";
 import { UseFormRegisterReturn } from "react-hook-form";
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface SelectProps extends BoxProps {
   options: SelectOption[];
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   selectStyles?: StylesConfig;
+  labelFormat?: (data) => ReactNode;
   error?: string;
+  value?: any;
+  onChange?: (value: any) => void;
 };
 
 function Select({ 
@@ -22,7 +24,9 @@ function Select({
   borderRadius = 0,
   register,
   selectStyles,
+  labelFormat,
   error,
+  value,
   ...rest 
 }: SelectProps) {
   const [hover, setHover] = useState(false);
@@ -73,26 +77,17 @@ function Select({
             styles={selectStyles}
             options={options}
             {...register}
-            formatOptionLabel={({ label }) => {
-              const [version, text] = label.split("#")
-              return (
-                <Text>
-                  <Tag 
-                    mr={2}
-                    colorScheme="primary"
-                  >
-                    {version}
-                  </Tag>
-                  {text}
-                </Text>
-              );
-            }}
+            formatOptionLabel={labelFormat}
             onChange={(newValue: SelectOption) => {
               setHover(false);
-              register.onChange({ target: { 
+
+              const ev = { target: { 
                 value: newValue.value,
-                name: register.name
-              }});
+                name: register?.name
+              }};
+
+              register?.onChange(ev);
+              onChange(ev.target.value);
             }}
           />
         </Box>

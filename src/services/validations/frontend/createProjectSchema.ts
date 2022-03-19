@@ -5,6 +5,5 @@ export const createProjectSchema = yup.object({
   repository: yup.string().required(),
   description: yup.string().optional().max(800),
   root: yup.string().optional().max(200),
-  baseUrl: yup.string().optional().max(200),
-  version: yup.string().required().max(10).min(1)
+  baseUrl: yup.string().optional().max(200)
 }).required();

@@ -5,12 +5,15 @@ import { GenerateOptions } from "../../../../../components/GenerateOptions";
 import { Layout } from "../../../../../components/Layout";
 import { api } from "../../../../../services/api";
 import { SimplePageHeader } from "../../../../../components/SimplePageHeader";
+import { Select } from "../../../../../components/Select";
+import { useState } from "react";
 
 interface GenerateProps {
-  project: Project;
+  project: ProjectWithVersions;
 };
 
 function GeneratePage({ project }: GenerateProps) {
+  const [selectedVersion, setSelectedVersion] = useState("");
   const router = useRouter();
 
   if(router.isFallback) {
@@ -20,6 +23,8 @@ function GeneratePage({ project }: GenerateProps) {
       />
     );
   };
+
+  console.log(project);
 
   return (
     <Layout
@@ -36,6 +41,24 @@ function GeneratePage({ project }: GenerateProps) {
           href: `/me/projects/${project.id}`,
           text: "Cancel"
         }}
+      />
+      <Select
+        value={selectedVersion}
+        onChange={(value) => 
+          setSelectedVersion(value)
+        }
+        options={!router.isFallback? project.versions?.map(v => {
+          return {
+            label: v.version,
+            value: v.id,
+            color: "var(--chakra-colors-primary-500)"
+          };
+        }):[{ 
+          value: "", 
+          label: "Loading...", 
+          color: "var(--chakra-colors-primary-500)", 
+          isDisabled: true 
+        }]}
       />
       <GenerateOptions project={project}/>
     </Layout>

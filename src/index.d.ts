@@ -1,8 +1,15 @@
+
+
 declare type Req = import("next").NextApiRequest;
 declare type Res = import("next").NextApiResponse;
 declare type Err = { message: string; };
 declare type User = import("@prisma/client").User;
 declare type Project = import("@prisma/client").Project;
+declare type ProjectVersion = import("@prisma/client").ProjectVersion;
+
+declare interface ProjectWithVersions extends Project {
+  versions: ProjectVersion[]
+};
 
 declare interface ReqWithUser extends Req {
   user?: User;
@@ -21,7 +28,7 @@ declare type ApiRoute = {
   route: string;
 };*/
 
-declare interface FormattedProject extends Project {  
+declare interface FormattedProject extends Project {
   posts: number;
   gets: number;
   puts: number;

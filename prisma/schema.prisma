@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Account {
-  id                    String          @id @default(cuid())
+  id                    String            @id @default(cuid())
   userId                String
   type                  String
   provider              String
@@ -21,105 +21,105 @@ model Account {
   id_token              String?
   session_state         String?
 
-  user                  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
-  id                    String          @id @default(cuid())
-  sessionToken          String          @unique
+  id                    String            @id @default(cuid())
+  sessionToken          String            @unique
   userId                String
   expires               DateTime
-  user                  User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
-  id                    String          @id @default(cuid())
+  id                    String            @id @default(cuid())
   name                  String?
-  email                 String?         @unique
+  email                 String?           @unique
   emailVerified         DateTime?
   image                 String?
   accounts              Account[]
   sessions              Session[]
 
-  createdAt             DateTime        @default(now())
+  createdAt             DateTime          @default(now())
 
   projects              Project[]
 }
 
 model VerificationToken {
   identifier            String
-  token                 String          @unique
+  token                 String            @unique
   expires               DateTime
 
   @@unique([identifier, token])
 }
 
 model Project {
-  id                    String          @id @default(uuid())
+  id                    String            @id @default(uuid())
   name                  String
-  formattedName         String          @default("")
-  formattedDescription  String          @default("")
-  description           String          @default("")
+  formattedName         String            @default("")
+  formattedDescription  String            @default("")
+  description           String            @default("")
   repository            String
-  root                  String          @default("/")
+  root                  String            @default("/")
   baseUrl               String?
-  haveExpress           Boolean         @default(false)
-  havePrisma            Boolean         @default(false)
+  haveExpress           Boolean           @default(false)
+  havePrisma            Boolean           @default(false)
   
-  createdAt             DateTime        @default(now())
-  formattedCreatedAt    String          @default("")
+  createdAt             DateTime          @default(now())
+  formattedCreatedAt    String            @default("")
 
-  version               ProjectVersion?
+  versions              ProjectVersion[]
 
-  user                  User            @relation(fields: [userId], references: [id])
+  user                  User              @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId                String            
 }
 
 model ProjectVersion {
-  id                    String          @id @default(uuid())
+  id                    String            @id @default(uuid())
   version               String
 
-  createdAt             DateTime        @default(now())
-  formattedCreatedAt    String          @default("")
+  createdAt             DateTime          @default(now())
+  formattedCreatedAt    String            @default("")
 
   routers               Route[]
 
-  project               Project         @relation(fields: [projectId], references: [id])
+  project               Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId             String
 }
 
 model Route {
-  id                    String          @id @default(uuid())
+  id                    String            @id @default(uuid())
   name                  String
-  path                  String          @default("/")
-  description           String          @default("")
-  type                  String          @default("get")
-  position              Int             @default(0)
-  createdAt             DateTime        @default(now())
+  path                  String            @default("/")
+  description           String            @default("")
+  type                  String            @default("get")
+  position              Int               @default(0)
+  createdAt             DateTime          @default(now())
 
   options               Option[]
 
-  projectVersion        ProjectVersion  @relation(fields: [projectVersionId], references: [id])
+  projectVersion        ProjectVersion    @relation(fields: [projectVersionId], references: [id], onDelete: Cascade)
   projectVersionId      String
 }
 
 model Option {
-  id                    String          @id @default(uuid())
-  type                  String          @default("body")
+  id                    String            @id @default(uuid())
+  type                  String            @default("body")
   name                  String
   value                 String
   validation            String?
-  isRequired            Boolean         @default(true)
-  position              Int             @default(0)
-  createdAt             DateTime        @default(now())
+  isRequired            Boolean           @default(true)
+  position              Int               @default(0)
+  createdAt             DateTime          @default(now())
 
-  route                 Route?          @relation(fields: [routeId], references: [id])
+  route                 Route?            @relation(fields: [routeId], references: [id], onDelete: Cascade)
   routeId               String?
  
-  arrayItems            Option[]        @relation("ArrayGroup")
+  arrayItems            Option[]          @relation("ArrayGroup")
 
-  arrayGroup            Option?         @relation("ArrayGroup", fields: [arrayGroupId], references: [id])
+  arrayGroup            Option?           @relation("ArrayGroup", fields: [arrayGroupId], references: [id], onDelete: Cascade)
   arrayGroupId          String?
 }
