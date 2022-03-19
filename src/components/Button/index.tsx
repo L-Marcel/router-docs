@@ -25,7 +25,10 @@ function Button({ icon, children, href, ...rest }: ButtonProps) {
             textDecoration: null
           }}
         >
-          <DefaultButton icon={icon} {...rest}>
+          <DefaultButton
+            icon={icon} 
+            {...rest}
+          >
             {children}
           </DefaultButton>
         </Link>

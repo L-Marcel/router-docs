@@ -1,10 +1,15 @@
 import { Prisma } from "@prisma/client";
 import { db } from "../services/prismaClient";
+import { projectFormat } from "../utils/projectFormat";
 
 export class Projects {
-  static async create(project: Prisma.ProjectCreateInput) {
+  static async create(project: Prisma.ProjectCreateInput, userId: string) {
+    const formattedProject = await projectFormat({ ...project } as any, userId, false);
+
     return await db.project.create({
-      data: project
+      data: {
+        ...formattedProject
+      }
     });
   };
   static async find(where: Prisma.ProjectWhereInput) {

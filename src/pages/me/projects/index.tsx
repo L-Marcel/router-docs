@@ -15,7 +15,7 @@ declare interface ProjectsProps {
   user: User;
 };
 
-function Projects({ user }: ProjectsProps) {
+function ProjectsPage({ user }: ProjectsProps) {
   const { setUser } = useUser();
   
   useEffect(() => {
@@ -56,13 +56,22 @@ function Projects({ user }: ProjectsProps) {
 
 export const getServerSideProps: GetServerSideProps = async({ req }) => {
   const session = await getSession({ req });
-  const user = await Users.find({ email: session.user.email });
+  
+  if(session) {
+    const user = await Users.find({ email: session?.user?.email });
+    return {
+      props: {
+        user
+      }
+    };
+  };
 
   return {
-    props: {
-      user
+    redirect: {
+      destination: "/",
+      permanent: false
     }
   };
 };
 
-export default Projects;
+export default ProjectsPage;

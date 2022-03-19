@@ -1,10 +1,14 @@
 import { User } from "@prisma/client";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { createContext } from "use-context-selector";
+import { useLocalStorage } from "react-use";
+import { signIn, signOut, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export const appContext = createContext({} as AppContext);
 
 function AppProvider({ children }) {
+  const router = useRouter();
   const [refresh, setRefresh] = useState<Refresh>({
     remove: () => {},
     update: () => {}
@@ -48,7 +52,7 @@ function AppProvider({ children }) {
       };
     }),
   [setPagination]);
-  const [user, setUser] = useState<User>({
+  const [user, setUser, removeUser] = useLocalStorage<User>("user", {
     id: "",
     image: "",
     email: "",
@@ -59,6 +63,23 @@ function AppProvider({ children }) {
   const _setUser = useCallback((user: User) => {
     setUser(user);
   }, [setUser]);
+
+  const callSignOut = useCallback(() => {
+    signOut().then(() => {
+      router.push("/");
+      refresh.remove();
+      removeUser();
+    });
+  }, [signOut, refresh, removeUser]);
+
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    console.log(session?.error, router.asPath);
+    if (session?.error === "RefreshAccessTokenError" && router.asPath !== "/") {
+      signIn("github"); // Force sign in to hopefully resolve error
+    }
+  }, [session, router]);
 
   return (
     <appContext.Provider
@@ -73,7 +94,8 @@ function AppProvider({ children }) {
         refresh,
         setRefresh: _setRefresh,
         setRefreshRemove: _setRefreshRemove,
-        setRefreshUpdate: _setRefreshUpdate
+        setRefreshUpdate: _setRefreshUpdate,
+        signOut: callSignOut
       }}
     >
       {children}

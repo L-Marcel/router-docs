@@ -1,12 +1,22 @@
-import { Stack } from "@chakra-ui/react";
+import { Progress, Stack } from "@chakra-ui/react";
 import { Button } from "../components/Button";
 import { Banner } from "../components/Banner";
 import { AppInfo } from "../components/AppInfo";
 import { Layout } from "../components/Layout";
-import { getSession, signIn } from "next-auth/react";
-import { GetServerSideProps } from "next";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-function Main() {
+function MainPage() {
+  const session = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if(session.status === "authenticated") {
+      router.push("/me/projects");
+    };
+  }, [session]);
+
   function handleSignIn() {
     signIn("github");
   };
@@ -18,6 +28,16 @@ function Main() {
       justifyContent="center"
       alignItems="center"
     >
+      {session.status !== "unauthenticated" && <Progress
+        colorScheme="primary"
+        isIndeterminate
+        position="absolute"
+        h="5px"
+        top={0}
+        left={0}
+        w="100%"
+        zIndex={100}
+      />}
       <Banner
         title="{ Routerdocs: Autogen }"
         description="One method to make your documentation quickly and easily, automatize and optimize your work and resolve, of course, your problems"
@@ -42,23 +62,4 @@ function Main() {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async({
-  req
-}) => {
-  const session = await getSession({ req });
-
-  if(session) {
-    return {
-      redirect: {
-        destination: "/me/projects",
-        permanent: false
-      }
-    };
-  };
-
-  return {
-    props: {}
-  };
-};
-
-export default Main;
+export default MainPage;

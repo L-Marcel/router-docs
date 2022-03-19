@@ -21,19 +21,11 @@ declare type ApiRoute = {
   route: string;
 };*/
 
-declare interface FormattedProject extends Project {
-  formattedName?: string;
-  formattedDescription?: string;
-  haveExpress?: boolean;
-  havePrisma?: boolean;
-  fullName?: string;
-  
+declare interface FormattedProject extends Project {  
   posts: number;
   gets: number;
   puts: number;
   deletes: number;
-
-  formattedCreatedAt?: string;
 }; 
 
 declare type ProjectList = {
@@ -60,6 +52,7 @@ declare type AppContext = {
   setRefresh: (refresh: Refresh) => void;
   setRefreshRemove: (remove: () => void) => void;
   setRefreshUpdate: (udapte: () => void) => void;
+  signOut: () => void;
 };
 
 declare interface AppProviderProps {
@@ -80,3 +73,19 @@ declare type RouteTypesCount = {
   puts: number;
   deletes: number;
 };
+
+declare type Repository = {
+  id: string;
+  name: string;
+  fullName: string;
+  haveExpress: boolean;
+  havePrisma: boolean;
+  version: string;
+};
+
+
+declare type Middleware = (
+  req: ReqWithUser, 
+  res: Res, 
+  next: () => Promise<void>
+) => Promise<void>;

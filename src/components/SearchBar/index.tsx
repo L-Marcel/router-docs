@@ -4,6 +4,8 @@ import { BiSearchAlt } from "react-icons/bi";
 import { useSearch } from "../../contexts/hooks/useSearch";
 import { Button } from "../Button";
 import { DebounceInput } from "react-debounce-input";
+import { fadeToTop } from "../../theme/animations";
+import { motion } from "framer-motion";
 
 function SearchBar() {
   const { setSearch } = useSearch();
@@ -21,7 +23,8 @@ function SearchBar() {
       mr={1}
       ml={[2, 4]}
     >
-      <InputGroup 
+      <InputGroup
+        as={motion.div}
         size="md"
         minW={[null, 300, 200, 200, 300, 400]}
         maxW={["80%", "min-content"]}
@@ -30,6 +33,7 @@ function SearchBar() {
         _focusWithin={{
           color: "primary.500"
         }}
+        {...fadeToTop}
       >
         <InputLeftElement
           pointerEvents='none'

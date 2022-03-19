@@ -13,7 +13,7 @@ interface DefaultButtonProps extends ButtonProps {
 
 function DefaultButton({ 
   rotateOnHover = 0, 
-  isIconButton = false, 
+  isIconButton = false,
   icon, 
   children, 
   ...rest 
@@ -99,11 +99,12 @@ function DefaultButton({
       {...fadeToTop}
       {...rest}
     >
-      {icon && <Icon 
+      { icon && <Icon
         as={icon} 
         mr={1}
         fontSize={18}
-      />}{ children }
+      />}
+      { children }
     </Button>
   );
 };

@@ -1,3 +1,5 @@
+import { AnimationProps } from "framer-motion";
+
 const fadeCascate = {
   initial: "hidden",
   animate: "visible",
@@ -24,6 +26,40 @@ const fadeToTop = {
     visible: {
       y: 0,
       opacity: 1
+    }
+  }
+};
+
+const fadeOutToBottom = {
+  variants: {
+    hidden: { 
+      y: 0,
+      opacity: 1
+    },
+    visible: {
+      y: -20,
+      opacity: 0,
+      transition: {
+        duration: .5
+      }
+    }
+  }
+};
+
+const fadeOutToBottomWithoutLayout = {
+  initial: "hidden",
+  animate: "visible",
+  variants: {
+    hidden: { 
+      y: 0,
+      opacity: 1
+    },
+    visible: {
+      y: 20,
+      opacity: 0,
+      transition: {
+        duration: .5
+      }
     }
   }
 };
@@ -120,10 +156,12 @@ const zeroGravityReverse = {
 
 export {
   fadeCascate,
+  fadeOutToBottomWithoutLayout,
   fadeToTop,
   fadeToRight,
   expandToRight,
   expandToLeft,
   zeroGravity,
-  zeroGravityReverse
+  zeroGravityReverse,
+  fadeOutToBottom
 };

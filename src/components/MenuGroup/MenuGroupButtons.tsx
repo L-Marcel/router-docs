@@ -3,16 +3,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { GiLifeBuoy } from "react-icons/gi";
 import { HiTemplate } from "react-icons/hi";
 import { Button } from "../Button";
-import { signOut } from "next-auth/react";
-import { useRefresh } from "../../contexts/hooks/useRefresh";
+import { useSignOut } from "../../contexts/hooks/useSignOut";
 
 function MenuGroupButtons() {
-  const { refresh } = useRefresh();
-
-  function handleExit() {
-    refresh.remove();
-    signOut();
-  };
+  const signOut = useSignOut();
 
   return (
     <>
@@ -23,7 +17,7 @@ function MenuGroupButtons() {
         rotateOnHover={180}
         data-testid="menu-exit-button"
         role="icon-button"
-        onClick={handleExit}
+        onClick={signOut}
       >
         exit
       </Button>

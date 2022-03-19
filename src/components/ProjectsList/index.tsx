@@ -4,13 +4,13 @@ import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { usePagination } from "../../contexts/hooks/usePagination";
 import { fadeCascate, fadeToTop } from "../../theme/animations";
-import { LoadingImage } from "../LoadingImage";
 import { ProjectItem } from "./ProjectItem";
 import { api } from "../../services/api";
 import { useSearch } from "../../contexts/hooks/useSearch";
 import { useUser } from "../../contexts/hooks/useUser";
 import { SearchWithoutResultImage } from "../SearchWithoutResultImage";
 import { useRefresh } from "../../contexts/hooks/useRefresh";
+import { Loading } from "../Loading";
 
 function ProjectsList() {
   const { user } = useUser();
@@ -66,13 +66,7 @@ function ProjectsList() {
         />
       }
       {
-        isLoading? <LoadingImage
-          autoIncrement
-          minW="100vw"
-          minH="70vh"
-          ml={-5}
-          {...fadeToTop}
-        />: isError || data?.projects?.length <= 0? <SearchWithoutResultImage
+        isError || data?.projects?.length <= 0? <SearchWithoutResultImage
           minW="100vw"
           minH="70vh"
           ml={-5}

@@ -1,5 +1,4 @@
 import { Projects } from "../../../models/projects";
-import { Routes } from "../../../models/routes";
 import { withMiddleware } from "../../../services/middlewares";
 
 async function list(req: ReqWithUser, res: Res) {
@@ -34,36 +33,7 @@ async function list(req: ReqWithUser, res: Res) {
 
   const startIn = (currentPage - 1) * projectsPerPage;
   const endIn = startIn + projectsPerPage;
-  let projectsInPage = await Promise.all(projects.slice(startIn, endIn)
-  .map(async(p): Promise<FormattedProject> => {
-    const routes = await Routes.list({
-      project: {
-        id: p.id
-      }
-    });
-
-    const counts = routes.reduce<RouteTypesCount>((c, r) => {
-      ++c[`${r.type}s`];
-      return c;
-    }, {
-      posts: 0,
-      gets: 0,
-      puts: 0,
-      deletes: 0
-    });
-
-    return {
-      ...p,
-      formattedName: p.name.slice(0, 17) + (p.name.length > 17? "...":""),
-      formattedDescription: p.description.slice(0, 213) + (p.description.length > 213? "...":""),
-      formattedCreatedAt: new Intl.DateTimeFormat("en-us", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric"
-      }).format(p.createdAt),
-      ...counts
-    };
-  }));
+  let projectsInPage = await projects.slice(startIn, endIn);
 
   return res.status(200).json({
     currentPage,
@@ -73,4 +43,26 @@ async function list(req: ReqWithUser, res: Res) {
   });
 };
 
-export default withMiddleware("authenticate")(list);
+async function create(req: ReqWithUser, res: Res) {
+  const data = req.body;
+  const { id } = req.user;
+
+  const projectCreated = await Projects.create({
+    ...data,
+    user: {
+      connect: {
+        id
+      }
+    }
+  }, id);
+
+  return res.status(200).json(projectCreated);
+};
+
+export default async function handler(req: ReqWithUser, res: Res) {
+  if(req.method === "POST") {
+    return await withMiddleware("authenticate", "createProjectValidate")(create)(req, res);
+  } else if(req.method === "GET") {
+    return await withMiddleware("authenticate")(list)(req, res);
+  };
+};

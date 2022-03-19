@@ -31,6 +31,7 @@ function SearchWithoutResultImage({ ...rest }: BoxProps) {
         <Img
           as={motion.img}
           src="/assets/searching.svg"
+          alt="A girl with orange hair, white shirt and black pants floating in zero gravity inside a crazy space."
           {...zeroGravityReverse as any}
         />
       </Box>

@@ -14,6 +14,7 @@ interface ProjectItemProps extends BoxProps {
 
 function ProjectItem({ project, ...rest }: ProjectItemProps) {
   const {
+    id,
     formattedName: name,
     formattedCreatedAt: createdAt,
     formattedDescription: description
@@ -51,6 +52,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
       })}
       {...rest}
       {...fadeToTop}
+      onClick={() => console.log(id)}
     >
       <Box
         display="flex"

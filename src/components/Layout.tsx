@@ -2,6 +2,7 @@ import { Box, BoxProps } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { fadeCascate } from "../theme/animations";
+import { Loading } from "./Loading";
 
 interface LayoutProps extends BoxProps {
   title?: string;
