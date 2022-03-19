@@ -1,6 +1,6 @@
 import { StylesConfig } from "react-select";
 
-export function createProjectFormStyle(borderRadius = 0) {
+export function selectRepositoryVersionStyle(borderRadius = 0) {
   return {
     control: (style) => {
       return {
@@ -16,14 +16,12 @@ export function createProjectFormStyle(borderRadius = 0) {
           borderBottomColor: "var(--chakra-colors-primary-500)",
         },
         boxShadow: undefined,
-        borderRadius,
-        flexDirection: "row-reverse"
+        borderRadius
       };
     },
     indicatorsContainer: (style) => {
       return {
         ...style,
-        display: "contents",
         color: "var(--chakra-colors-primary-600) !important"
       };
     },
@@ -35,8 +33,7 @@ export function createProjectFormStyle(borderRadius = 0) {
     },
     indicatorSeparator: (style) => {
       return {
-        ...style,
-        display: "none"
+        ...style
       };
     },
     container: (style) => {
@@ -60,8 +57,7 @@ export function createProjectFormStyle(borderRadius = 0) {
     },
     valueContainer: (style) => {
       return {
-        ...style,
-        paddingLeft: 2
+        ...style
       };
     },
     menu: (style) => {

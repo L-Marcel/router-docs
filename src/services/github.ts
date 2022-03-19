@@ -2,16 +2,61 @@ import { api } from "./api";
 import { db } from "./prismaClient";
 
 export class Github {
-  static async getRepositories(id: string, page = 1, previousData: Repository[] = []): Promise<Repository[]> {
-    const { providerAccountId, access_token: token } = await db.account.findFirst({
-      where: {
-        user: {
-          id,
+  token: string;
+  account: string;
+  
+  async init(user: string | {
+    token: string,
+    account: string
+  }) {
+    if(typeof user === "string") {
+      const { providerAccountId, access_token } = await db.account.findFirst({
+        where: {
+          user: {
+            id: user,
+          }
         }
+      });
+
+      this.token = access_token;
+      this.account = providerAccountId;
+    } else {
+      this.token = user.token;
+      this.account = user.account;
+    };
+  };
+  
+  async getRepository(fullName: string): Promise<Repository | void> {
+    const { token } = this;
+
+    return await api.get(`https://api.github.com/repos/${fullName}`, {
+      headers: {
+        "Authorization": "Bearer " + token
       }
-    });
-    
-    return await api.get(`https://api.github.com/user/${providerAccountId}/repos?page=${page}`, {
+    }).then(async(res) => {
+      const r = res.data;
+      const projectPackagePath = await this.getRepositoryPackageJSON(r.full_name, token);
+      const haveExpress = projectPackagePath?.dependencies?.express !== undefined;
+      const havePrisma = projectPackagePath?.dependencies["@prisma/client"] !== undefined;
+
+      return {
+        id: r.id,
+        name: r.name,
+        fullName: r.full_name,
+        haveExpress,
+        havePrisma,
+        version: projectPackagePath?.version ?? "1.0.0"
+      } as Repository;
+    }).catch(res => console.log(res));
+  };
+
+  async getRepositories(
+    page = 1, 
+    previousData: Repository[] = []
+  ): Promise<Repository[]> {
+    const { account, token } = this;
+
+    return await api.get(`https://api.github.com/user/${account}/repos?page=${page}`, {
       headers: {
         "Authorization": "Bearer " + token
       }
@@ -31,7 +76,6 @@ export class Github {
         } as Repository;
       }));
 
-      //Filter not work with Promise.all
       const filteredRepositories = repositories.filter(r => r.haveExpress || r.havePrisma);
       
       const allRepositories = [
@@ -40,7 +84,7 @@ export class Github {
       ];
 
       if(repositories.length >= 30) {
-        return await this.getRepositories(id, ++page, allRepositories);
+        return await this.getRepositories(++page, allRepositories);
       };
 
       return allRepositories;
@@ -48,7 +92,7 @@ export class Github {
       return [];
     });
   };
-  static async getRepositoryPackageJSON(reposFullName: string, token: string) {
+  async getRepositoryPackageJSON(reposFullName: string, token: string) {
     return await api.get(`https://raw.githubusercontent.com/${reposFullName}/master/package.json`, {
       headers: {
         "Authorization": "Bearer " + token

@@ -13,7 +13,7 @@ import { Button } from "../Button";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createProjectSchema } from "../../services/validations/frontend/createProjectSchema";
 import { useRouter } from "next/router";
-import { createProjectFormStyle } from "../../theme/select/createProjectFormStyle";
+import { selectCreateProjectFormStyle } from "../../theme/select/selectCreateProjectFormStyle";
 
 function CreateProjectForm() {
   const router = useRouter();
@@ -115,7 +115,7 @@ function CreateProjectForm() {
           borderRadius={6}
           error={errors["repository"]?.message}
           register={register("repository")}
-          selectStyles={createProjectFormStyle(6)}
+          selectStyles={selectCreateProjectFormStyle(6)}
           placeholder="Select repository"
         />
         <Input

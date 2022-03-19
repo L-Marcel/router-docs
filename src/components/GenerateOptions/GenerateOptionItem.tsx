@@ -28,8 +28,8 @@ function GenerateOptionsItem({
       flexDir="column"
       alignItems="center"
       minH={30}
-      border="2px solid"
-      bgColor={isDisabled && "gray.100"}
+      borderBottom="1px solid"
+      bgColor={isDisabled? "gray.100":"gray.50"}
       color="primary.700"
       _hover={!isDisabled && {
         cursor: "pointer",
@@ -42,23 +42,16 @@ function GenerateOptionsItem({
         "var(--chakra-colors-gray-200)!important"
       }
       _first={{
-        borderTopRadius: 20,
+        borderTopRadius: 6,
         "button#accodion-button:first-of-type": {
-          borderTopRadius: 19,
+          borderTopRadius: 6,
         }
       }}
       _last={{
-        borderBottomRadius: 20,
+        borderBottomRadius: 6,
         "button#accodion-button:first-of-type": {
-          borderBottomRadius: !isSelected? 19:0,
+          borderBottomRadius: !isSelected? 6:0,
         }
-      }}
-      _notFirst={{
-        borderTop: "none"
-      }}
-      _notLast={{
-        borderBottom: "1px solid",
-        borderBottomColor: "var(--chakra-colors-gray-200)!important"
       }}
       {...rest}
       {...fadeToTop}

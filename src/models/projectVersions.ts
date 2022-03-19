@@ -18,7 +18,7 @@ export class ProjectVersions {
     return await db.projectVersion.findMany({
       where,
       orderBy: {
-        createdAt: "asc"
+        createdAt: "desc"
       }
     });
   };

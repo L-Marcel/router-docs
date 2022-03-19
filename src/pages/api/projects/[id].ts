@@ -34,8 +34,6 @@ async function find(req: Req, res: Res) {
     }
   });
 
-  console.log(versions);
-
   return res.status(200).json({
     ...project,
     versions

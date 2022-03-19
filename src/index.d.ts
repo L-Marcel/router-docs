@@ -90,6 +90,12 @@ declare type Repository = {
   version: string;
 };
 
+declare type RepositoryVersion = {
+  fullName: string;
+  haveExpress: boolean;
+  havePrisma: boolean;
+  version: string;
+};
 
 declare type Middleware = (
   req: ReqWithUser, 

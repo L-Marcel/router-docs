@@ -24,6 +24,13 @@ function GenerateOptions({ project }: GenerateOptionsProps) {
         as={motion.div}
         maxW={400}
         my={2}
+        filter="drop-shadow(0px 0px 0px rgba(0, 0, 0, 0))"
+        whileHover={{
+          filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
+        }}
+        whileTap={{
+          filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
+        }}
       >
         {
           options.map(o => {
