@@ -1,11 +1,10 @@
-import { Box, BoxProps, Grid, Heading, Img, Stack, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Heading, Stack, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { fadeCascate, fadeToTop } from "../../theme/animations";
+import { fadeToTop } from "../../theme/animations";
 import { bg } from "../../theme/effects/bg";
 import { Button } from "../Button";
 import { IoMdOpen } from "react-icons/io";
 import { boxShadow } from "../../theme/effects/shadow";
-import { RouterTypesCount } from "./RouterTypesCount";
 import { ProjectItemRouterTypes } from "./ProjectItemRouterTypes";
 
 interface ProjectItemProps extends BoxProps {

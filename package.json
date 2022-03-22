@@ -12,7 +12,8 @@
     "migrate.dev": "set NODE_ENV=dev && prisma migrate dev",
     "migrate.prod": "set NODE_ENV=prod && prisma db push --schema=./prisma/prod.schema.prisma",
     "studio.dev": "prisma studio",
-    "studio.prod": "prisma studio --schema=./prisma/prod.schema.prisma"
+    "studio.prod": "prisma studio --schema=./prisma/prod.schema.prisma",
+    "vercel-build": "set NODE_ENV=prod && prisma db push --schema=./prisma/prod.schema.prisma && next build"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.8.3",
@@ -30,6 +31,7 @@
     "next": "12.0.7",
     "next-api-middleware": "^1.0.1",
     "next-auth": "^4.2.1",
+    "prisma": "^3.11.0",
     "pusher": "^5.0.1",
     "pusher-js": "^7.0.6",
     "react": "17.0.2",
