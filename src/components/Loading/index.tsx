@@ -1,4 +1,4 @@
-import { Box, BoxProps, Heading, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Heading, Progress, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Typed from "typed.js";
@@ -57,6 +57,17 @@ function Loading({
       mt={mt}
       {...rest}
     >
+      <Progress
+        colorScheme="primary"
+        isIndeterminate={!withCount}
+        value={counterValue}
+        position="absolute"
+        h="5px"
+        top={0}
+        left={0}
+        w="100%"
+        zIndex={100}
+      />
       {title && <Heading
         mt={2}
         color="primary.800"

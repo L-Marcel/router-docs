@@ -1,17 +1,10 @@
-import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 
-export async function middleware(req: Req) {
-  console.log(req, process.env.NEXTAUTH_SECRET);
-  const token = await getToken({
-    req,
-    secret: process.env.NEXTAUTH_SECRET
-  });
+export async function middleware() {
+  const authorized = fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/verify")
+  .then(() => true).catch(() => false);
 
-  console.log(token);
-
-  if(!token) {
-    console.log("bug!");
+  if(!authorized) {
     return NextResponse.redirect("/error?type=401");
   };
 

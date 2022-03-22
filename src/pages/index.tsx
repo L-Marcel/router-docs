@@ -6,6 +6,7 @@ import { Layout } from "../components/Layout";
 import { signIn, useSession } from "next-auth/react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import { LoadingFeedback } from "../components/Loading/LoadingFeedback";
 
 function MainPage() {
   const session = useSession();
@@ -21,6 +22,14 @@ function MainPage() {
     signIn("github");
   };
 
+  if(session.status !== "unauthenticated") {
+    return (
+      <LoadingFeedback
+        title="R.Docs: Cheking Session"
+      />
+    );
+  };
+
   return (
     <Layout
       title="Routerdocs: Autogen"
@@ -28,16 +37,6 @@ function MainPage() {
       justifyContent="center"
       alignItems="center"
     >
-      {session.status !== "unauthenticated" && <Progress
-        colorScheme="primary"
-        isIndeterminate
-        position="absolute"
-        h="5px"
-        top={0}
-        left={0}
-        w="100%"
-        zIndex={100}
-      />}
       <Banner
         title="{ Routerdocs: Autogen }"
         description="One method to make your documentation quickly and easily, automatize and optimize your work and resolve, of course, your problems"

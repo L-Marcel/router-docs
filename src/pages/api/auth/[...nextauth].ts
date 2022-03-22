@@ -7,7 +7,7 @@ export default NextAuth({
   adapter: PrismaAdapter(db),
   session: {
     strategy: "jwt",
-    maxAge: 60 * 60 * 24
+    maxAge: 60 * 60 * 24,
   },
   useSecureCookies: process.env.NODE_ENV === "production",
   providers: [
