@@ -1,15 +1,29 @@
-import { Heading, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Heading, Text } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Typed from "typed.js";
 import { fadeToTop } from "../../theme/animations";
+import { Counter } from "../Counter";
 
-interface LoadingProps {
+interface LoadingProps extends BoxProps {
   title?: string;
   strings?: string[];
+  loop?: boolean;
+  withCount?: boolean;
+  counterValue?: number;
+  counterSuffix?: string;
 };
 
-function Loading({ title, strings }: LoadingProps) {
+function Loading({ 
+  title, 
+  strings,
+  loop = true,
+  withCount = false,
+  counterValue = 0,
+  counterSuffix,
+  mt = -8,
+  ...rest 
+}: LoadingProps) {
 	const el = useRef(null);
 	const typed = useRef(null);
 
@@ -24,7 +38,7 @@ function Loading({ title, strings }: LoadingProps) {
         "Destroing the world...",
         "Calculating anything..."
       ],
-      loop: true,
+      loop,
       typeSpeed: 24,
       backDelay: 2000,
       backSpeed: 24,
@@ -32,10 +46,17 @@ function Loading({ title, strings }: LoadingProps) {
     });
     
     return () => typed.current.destroy();
+  }, [strings, loop, typed]);
+
+  useEffect(() => {
+
   }, []);
 
   return (
-    <>
+    <Box
+      mt={mt}
+      {...rest}
+    >
       {title && <Heading
         mt={2}
         color="primary.800"
@@ -46,12 +67,18 @@ function Loading({ title, strings }: LoadingProps) {
         color="primary.500"
         fontSize={[18, 24]}
         fontWeight="medium"
+        display="flex"
+        alignItems="center"
         as={motion.p}
         {...fadeToTop}
       >
-        <motion.span ref={el}/>
+        {withCount && <Counter
+          suffix={counterSuffix}
+          to={counterValue}
+          mr="4px"
+        />}<Text mb="2px" mr="4px">{">"}</Text><motion.span ref={el}/>
       </Text>
-    </>
+    </Box>
   );
 };
 

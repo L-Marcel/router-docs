@@ -18,4 +18,10 @@ async function getRepository(req: ReqWithUser, res: Res) {
   return res.status(200).json(repository);
 };
 
-export default withMiddleware("authenticate")(getRepository);
+export default async function handler(req: ReqWithUser, res: Res) {
+  if(req.method === "GET") {
+    return await withMiddleware("authenticate")(getRepository)(req, res);
+  } else  {
+    return res.status(404);
+  };
+}

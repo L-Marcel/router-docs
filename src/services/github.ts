@@ -35,7 +35,7 @@ export class Github {
       }
     }).then(async(res) => {
       const r = res.data;
-      const projectPackagePath = await this.getRepositoryPackageJSON(r.full_name, token);
+      const projectPackagePath = await this.getRepositoryPackageJSON(r.full_name);
       const haveExpress = projectPackagePath?.dependencies?.express !== undefined;
       const havePrisma = projectPackagePath?.dependencies["@prisma/client"] !== undefined;
 
@@ -62,7 +62,7 @@ export class Github {
       }
     }).then(async(res) => {
       const repositories: Repository[] = await Promise.all(res.data.map(async(r, i) => {
-        const projectPackagePath = await this.getRepositoryPackageJSON(r.full_name, token);
+        const projectPackagePath = await this.getRepositoryPackageJSON(r.full_name);
         const haveExpress = projectPackagePath?.dependencies?.express !== undefined;
         const havePrisma = projectPackagePath?.dependencies["@prisma/client"] !== undefined;
 
@@ -92,7 +92,8 @@ export class Github {
       return [];
     });
   };
-  async getRepositoryPackageJSON(reposFullName: string, token: string) {
+  async getRepositoryPackageJSON(reposFullName: string) {
+    const { token } = this;
     return await api.get(`https://raw.githubusercontent.com/${reposFullName}/master/package.json`, {
       headers: {
         "Authorization": "Bearer " + token

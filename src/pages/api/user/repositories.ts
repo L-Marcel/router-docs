@@ -1,6 +1,5 @@
 import { Github } from "../../../services/github";
 import { withMiddleware } from "../../../services/middlewares";
-import { db } from "../../../services/prismaClient";
 
 async function listRepositories(req: ReqWithUser, res: Res) {
   const { id } = req.user;
@@ -13,4 +12,10 @@ async function listRepositories(req: ReqWithUser, res: Res) {
   return res.status(200).json(repositories);
 };
 
-export default withMiddleware("authenticate")(listRepositories);
+export default async function handler(req: ReqWithUser, res: Res) {
+  if(req.method === "GET") {
+    return await withMiddleware("authenticate")(listRepositories)(req, res);
+  } else  {
+    return res.status(404);
+  };
+}

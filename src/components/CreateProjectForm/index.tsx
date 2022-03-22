@@ -43,11 +43,7 @@ function CreateProjectForm() {
 
   useEffect(() => {
     if(!!user.id) {
-      api.get(`/user/repositories`, {
-        headers: {
-          user: user.id
-        }
-      }).then((res) => {
+      api.get(`/user/repositories`).then((res) => {
         setIsLoadingRepositories(false);
         setRepositories(res.data);
       });

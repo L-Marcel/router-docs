@@ -84,6 +84,8 @@ model ProjectVersion {
   createdAt             DateTime          @default(now())
   formattedCreatedAt    String            @default("")
 
+  template              String?
+
   routers               Route[]
 
   project               Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)

@@ -55,13 +55,15 @@ export function selectCreateProjectFormStyle(borderRadius = 0) {
     singleValue: (style) => {
       return {
         ...style,
-        color: "var(--chakra-colors-primary-600)"
+        color: "var(--chakra-colors-primary-600)",
+        caretColor: "transparent"
       };
     },
     valueContainer: (style) => {
       return {
         ...style,
-        paddingLeft: 2
+        paddingLeft: 2,
+        caretColor: "transparent"
       };
     },
     menu: (style) => {
@@ -76,23 +78,25 @@ export function selectCreateProjectFormStyle(borderRadius = 0) {
         boxShadow: undefined
       };
     },
-    menuList: (style) => {
+    menuList: (style, data) => {
       return {
         ...style,
         margin: 0,
         padding: 0,
-        borderRadius
+        borderRadius,
+        backgroundColor: "var(--chakra-colors-primary-50)"
       };
     },
     option: (provided, data) => {
       return {
         ...provided,
         color: "var(--chakra-colors-primary-800)",
-        backgroundColor: data.isSelected || data.isFocused? 
+        backgroundColor: data.isSelected || data.isFocused?
         "var(--chakra-colors-primary-50)":"var(--chakra-colors-gray-50)",
         filter: data.isFocused && "brightness(.97)",
         cursor: "pointer",
-        padding: 10
+        padding: 10,
+        ":active": null
       };
     }
   } as StylesConfig;

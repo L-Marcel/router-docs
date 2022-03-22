@@ -4,6 +4,8 @@ import { createContext } from "use-context-selector";
 import { useLocalStorage } from "react-use";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { api } from "../services/api";
+import { sleep } from "../utils/sleep";
 
 export const appContext = createContext({} as AppContext);
 
@@ -24,11 +26,11 @@ function AppProvider({ children }) {
       };
     }), 
   [setRefresh]);
-  const _setRefreshUpdate = useCallback((remove: () => void) => 
+  const _setRefreshUpdate = useCallback((update: () => void) => 
     setRefresh(r => {
       return {
         ...r,
-        remove
+        update
       };
     }), 
   [setRefresh]);
@@ -63,6 +65,31 @@ function AppProvider({ children }) {
   const _setUser = useCallback((user: User) => {
     setUser(user);
   }, [setUser]);
+  const [realtimeProgressState, setRealtimeProgressState] = useState<RealtimeProgressState>({
+    progress: 0,
+    message: "...",
+    state: "Inactivity"
+  });
+  const _setRealtimeProgressState = useCallback((
+      realtimeProgressState: Partial<RealtimeProgressState>
+    ) => {
+    setRealtimeProgressState(rps => {
+      return {
+        ...rps,
+        message: "...",
+        ...realtimeProgressState
+      };
+    });
+  }, [setRealtimeProgressState]);
+
+  const _resetRealtimeProgressState = useCallback(() => {
+    setRealtimeProgressState({
+      progress: 0,
+      state: "Inactivity",
+      data: undefined,
+      message: undefined
+    });
+  }, [setRealtimeProgressState]);
 
   const callSignOut = useCallback(() => {
     signOut().then(() => {
@@ -75,11 +102,26 @@ function AppProvider({ children }) {
   const { data: session } = useSession();
 
   useEffect(() => {
-    console.log(session?.error, router.asPath);
     if (session?.error === "RefreshAccessTokenError" && router.asPath !== "/") {
       signIn("github"); // Force sign in to hopefully resolve error
-    }
+    };
   }, [session, router]);
+  
+  useEffect(() => {
+    api.defaults.headers.common["user"] = user.id;
+  }, [user, api]);
+
+  useEffect(() => {
+    if(realtimeProgressState.progress >= 100) {
+      sleep(5000).then(() => {
+        _resetRealtimeProgressState();
+      });
+    };
+  }, [
+    sleep, 
+    _resetRealtimeProgressState,
+    realtimeProgressState.progress
+  ]);
 
   return (
     <appContext.Provider
@@ -95,7 +137,10 @@ function AppProvider({ children }) {
         setRefresh: _setRefresh,
         setRefreshRemove: _setRefreshRemove,
         setRefreshUpdate: _setRefreshUpdate,
-        signOut: callSignOut
+        signOut: callSignOut,
+        realtimeProgressState,
+        setRealtimeProgressState: _setRealtimeProgressState,
+        resetRealtimeProgressState: _resetRealtimeProgressState
       }}
     >
       {children}

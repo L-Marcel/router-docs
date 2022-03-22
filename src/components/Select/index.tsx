@@ -87,7 +87,7 @@ function Select({
               }};
 
               register?.onChange(ev);
-              onChange(ev.target.value);
+              onChange && onChange(ev.target.value);
             }}
           />
         </Box>

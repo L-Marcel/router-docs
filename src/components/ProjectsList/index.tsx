@@ -10,7 +10,6 @@ import { useSearch } from "../../contexts/hooks/useSearch";
 import { useUser } from "../../contexts/hooks/useUser";
 import { SearchWithoutResultImage } from "../SearchWithoutResultImage";
 import { useRefresh } from "../../contexts/hooks/useRefresh";
-import { Loading } from "../Loading";
 
 function ProjectsList() {
   const { user } = useUser();
@@ -26,11 +25,7 @@ function ProjectsList() {
     isFetching,
     remove
   } = useQuery<ProjectList>(["projects", currentPage, search, user.email], () => {
-    return api.get(`/projects?page=${currentPage}&itemsPerPage=${9}&name=${search}`, {
-      headers: {
-        user: user.id
-      }
-    }).then((res) => res.data)
+    return api.get(`/projects?page=${currentPage}&itemsPerPage=${9}&name=${search}`).then((res) => res.data)
   }, {
     enabled: user.id.length > 0,
     keepPreviousData: true,

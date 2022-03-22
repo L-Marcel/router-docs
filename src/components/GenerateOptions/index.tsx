@@ -2,21 +2,22 @@ import { Accordion } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { GenerateOptionsItem } from "./GenerateOptionItem";
-import { SiPrisma, SiExpress } from "react-icons/si";
-import { RiCheckboxMultipleBlankFill, RiCheckboxMultipleBlankLine} from "react-icons/ri";
+import { generateOptions } from "../../utils/generateOptions";
 
 interface GenerateOptionsProps {
   project: Project;
+  selectedVersion: {
+    id: string;
+    version: string;
+  };
 };
 
-function GenerateOptions({ project }: GenerateOptionsProps) {
+function GenerateOptions({ 
+  project,
+  selectedVersion
+}: GenerateOptionsProps) {
   const [selectedOption, setSelectedOption] = useState("");
-  const options = [
-    { id: "prismic", title: "Basic and prismatic", icon: SiPrisma, isDisabled: !project.havePrisma },
-    { id: "express", title: "Big and express", icon: SiExpress, isDisabled: !project.haveExpress },
-    { id: "examples", title: "With examples", icon: RiCheckboxMultipleBlankFill },
-    { id: "blank", title: "Realy blank", icon: RiCheckboxMultipleBlankLine }
-  ];
+  const options = generateOptions(project);
 
   return (
     <>
@@ -24,6 +25,7 @@ function GenerateOptions({ project }: GenerateOptionsProps) {
         as={motion.div}
         maxW={400}
         my={2}
+        alignItems="flex-start"
         filter="drop-shadow(0px 0px 0px rgba(0, 0, 0, 0))"
         whileHover={{
           filter: "drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25))"
@@ -39,6 +41,8 @@ function GenerateOptions({ project }: GenerateOptionsProps) {
                 key={o.id}
                 isSelected={selectedOption === o.id}
                 onClick={() => setSelectedOption(o.id)}
+                project={project}
+                selectedVersion={selectedVersion}
                 {...o}
               />
             );

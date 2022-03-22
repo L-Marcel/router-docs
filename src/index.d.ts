@@ -13,6 +13,15 @@ declare interface ProjectWithVersions extends Project {
 
 declare interface ReqWithUser extends Req {
   user?: User;
+  client?: string;
+};
+
+declare interface ResWithSocket extends Res {
+  socket?: {
+    server: {
+      io: import("socket.io").Server<any>;
+    };
+  };
 };
 
 declare type Pagination = {
@@ -60,6 +69,11 @@ declare type AppContext = {
   setRefreshRemove: (remove: () => void) => void;
   setRefreshUpdate: (udapte: () => void) => void;
   signOut: () => void;
+  realtimeProgressState: RealtimeProgressState;
+  setRealtimeProgressState: (
+    realtimeProgressState: RealtimeProgressState
+  ) => void;
+  resetRealtimeProgressState: () => void;
 };
 
 declare interface AppProviderProps {
@@ -102,3 +116,13 @@ declare type Middleware = (
   res: Res, 
   next: () => Promise<void>
 ) => Promise<void>;
+
+declare type RealtimeProgress<T = any> = {
+  progress: number;
+  message?: string;
+  data?: T;
+};
+
+declare interface RealtimeProgressState<T = any> extends RealtimeProgress {
+  state: "Inactivity" | "Loading" | "Finished";
+};

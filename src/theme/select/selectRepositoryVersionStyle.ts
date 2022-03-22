@@ -52,12 +52,14 @@ export function selectRepositoryVersionStyle(borderRadius = 0) {
     singleValue: (style) => {
       return {
         ...style,
-        color: "var(--chakra-colors-primary-600)"
+        color: "var(--chakra-colors-primary-600)",
+        caretColor: "transparent"
       };
     },
     valueContainer: (style) => {
       return {
-        ...style
+        ...style,
+        caretColor: "transparent"
       };
     },
     menu: (style) => {
@@ -88,7 +90,8 @@ export function selectRepositoryVersionStyle(borderRadius = 0) {
         "var(--chakra-colors-primary-50)":"var(--chakra-colors-gray-50)",
         filter: data.isFocused && "brightness(.97)",
         cursor: "pointer",
-        padding: 10
+        padding: 10,
+        ":active": null
       };
     }
   } as StylesConfig;

@@ -47,5 +47,7 @@ export default async function handler(req: Req, res: Res) {
     return await withMiddleware("authenticate")(update)(req, res);
   } else if(req.method === "DELETE") {
     return await withMiddleware("authenticate")(remove)(req, res);
+  } else {
+    return res.status(404);
   };
 };

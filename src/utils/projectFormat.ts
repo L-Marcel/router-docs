@@ -5,7 +5,7 @@ import { Routes } from "../models/routes";
 import { Github } from "../services/github";
 import { dateFormat } from "./dateFormat";
 
-export async function projectFormat(
+async function projectFormat(
   p: Project,
   authenticatedUserId: string, 
   {
@@ -14,11 +14,8 @@ export async function projectFormat(
   },
   versions?: Prisma.ProjectVersionCreateNestedManyWithoutProjectInput,
 ) {
-  const { access_token: token } = await Accounts.find({
-    user: {
-      id: authenticatedUserId,
-    }
-  });
+  const github = new Github();
+  await github.init(authenticatedUserId);
 
   const projectVersions = getVersions? await ProjectVersions.list({
     project: {
@@ -44,7 +41,7 @@ export async function projectFormat(
     deletes: 0
   }):{};
 
-  const projectPackagePath = await Github.getRepositoryPackageJSON(p.repository, token);
+  const projectPackagePath = await github.getRepositoryPackageJSON(p.repository);
   const haveExpress = projectPackagePath?.dependencies?.express !== undefined;
   const havePrisma = projectPackagePath?.dependencies["@prisma/client"] !== undefined;
 
@@ -59,3 +56,5 @@ export async function projectFormat(
     versions: projectVersions
   };
 };
+
+export { projectFormat };

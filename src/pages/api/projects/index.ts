@@ -71,5 +71,7 @@ export default async function handler(req: ReqWithUser, res: Res) {
     return await withMiddleware("authenticate", "createProjectValidate")(create)(req, res);
   } else if(req.method === "GET") {
     return await withMiddleware("authenticate")(list)(req, res);
+  } else {
+    return res.status(404);
   };
 };

@@ -1,19 +1,18 @@
-import { GetServerSideProps, GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { FallbackLoading } from "../../../../../components/Loading/FallbackLoading";
+import { LoadingFeedback } from "../../../../../components/Loading/LoadingFeedback";
 import { GenerateOptions } from "../../../../../components/GenerateOptions";
 import { Layout } from "../../../../../components/Layout";
 import { api } from "../../../../../services/api";
 import { SimplePageHeader } from "../../../../../components/SimplePageHeader";
 import { Select } from "../../../../../components/Select";
 import { useEffect, useState } from "react";
-import { getSession, useSession } from "next-auth/react";
-import { Github } from "../../../../../services/github";
-import { getToken } from "next-auth/jwt";
-import { useUser } from "../../../../../contexts/hooks/useUser";
-import { Box, HStack, Stack, Tag, Text } from "@chakra-ui/react";
+import { Tag, Text } from "@chakra-ui/react";
 import { selectRepositoryVersionStyle } from "../../../../../theme/select/selectRepositoryVersionStyle";
-import { Button } from "../../../../../components/Button";
+import RealtimeClient from "../../../../../services/pusher/client";
+import { versionLabelFormat } from "../../../../../utils/versionLabelFormat";
+import { getProjectChannel } from "../../../../../utils/getProjectChannel";
+import { getGenerateOptionsList } from "../../../../../utils/getGenerateOptionsArray";
 
 interface GenerateProps {
   project: ProjectWithVersions;
@@ -21,19 +20,17 @@ interface GenerateProps {
 };
 
 function GeneratePage({ project }: GenerateProps) {
-  const [searchingRepository, setSearchingRepository] = useState(true);
-  const [selectedVersion, setSelectedVersion] = useState("");
+  const [isSearchingRepository, setIsSearchingRepository] = useState(true);
+  const [selectedVersion, setSelectedVersion] = useState({
+    id: "",
+    version: ""
+  });
   const [repository, setRepository] = useState<RepositoryVersion>();
   const router = useRouter();
-  const { user } = useUser();
 
   useEffect(() => {
     if(project?.repository) {
-      api.get(`user/repository/${project.id}`, {
-        headers: {
-          user: user.id
-        }
-      }).then(async(res) => {
+      api.get(`user/repository/${project.id}`).then(async(res) => {
         const repository = res.data;
 
         if(repository?.version && !project?.versions?.some(
@@ -45,25 +42,26 @@ function GeneratePage({ project }: GenerateProps) {
           });
         };
 
-        setSearchingRepository(false);
+        setIsSearchingRepository(false);
       }).catch(res => console.log(res));
     };
   }, [setRepository, project]);
 
   if(router.isFallback) {
     return (
-      <FallbackLoading 
-        title="Loading..."
+      <LoadingFeedback
+        title="R.Docs: Loading Resources"
       />
     );
   };
 
   return (
     <Layout
-      title={"R.Docs: Generate Document"}
+      title={"R.Docs: Document Generation"}
       display="inline-flex"
       overflowY="auto"
       overflowX="hidden"
+      withCount
       h="100vh"
     >
       <SimplePageHeader
@@ -75,18 +73,34 @@ function GeneratePage({ project }: GenerateProps) {
         }}
       />
       <Select
-        value={selectedVersion}
-        onChange={(value) => 
-          setSelectedVersion(value)
-        }
-        maxW={200}
+        value={selectedVersion.version}
+        onChange={(value) => {
+          const data = (
+            repository? [
+              repository,
+              ...project.versions
+            ]:project.versions
+          ).find(v => v.version === value);
+
+          const channel = getProjectChannel(project, data as any);
+          RealtimeClient.removeChannel(channel);
+
+          let { id } = data as any;
+
+          if(repository?.version === value) {
+            id = "new";
+          };
+
+          setSelectedVersion({
+            version: data.version,
+            id
+          });
+        }}
+        maxW={400}
         mb={2}
         selectStyles={selectRepositoryVersionStyle(6)}
         labelFormat={({ label }) => {
-          let text: string = label;
-
-          text = text.includes("#")? text:`${repository.version === label? "new":"override"}#${label}`;
-          const [tag, version] = label.split("#");
+          let { tag, version } = versionLabelFormat(label, repository?.version);
   
           return (
             <Text>
@@ -100,34 +114,35 @@ function GeneratePage({ project }: GenerateProps) {
             </Text>
           );
         }}
-        options={!router.isFallback? [ 
-          searchingRepository? {
-            version: "Searching github repository...",
-            id: "invalid",
-            isDisabled: true,
-          }:repository ?? undefined,
-          ...project.versions
-        ].map(v => {
-          let { isDisabled, id } = v as any;
+        placeholder="Select repository version..."
+        options={!router.isFallback?
+          getGenerateOptionsList(
+            project,
+            repository,
+            isSearchingRepository
+          ).map(v => {
+            let { isDisabled } = v as any;
 
-          if(repository?.version === v.version) {
-            id = "new";
-          };
+            let { label } = versionLabelFormat(v.version, repository?.version);
 
-          return {
-            label: `${id === "new"? id:"override"}#${v.version}`,
-            value: id,
-            color: "var(--chakra-colors-primary-500)",
-            isDisabled
-          };
-        }):[{ 
-          value: "", 
-          label: "Loading...", 
-          color: "var(--chakra-colors-primary-500)", 
-          isDisabled: true 
-        }]}
+            return {
+              label: label,
+              value: v.version,
+              color: "var(--chakra-colors-primary-500)",
+              isDisabled
+            };
+          }):[{ 
+            value: "loading#Searching github repository...", 
+            label: "loading#Searching github repository...", 
+            color: "var(--chakra-colors-blue-500)", 
+            isDisabled: true 
+          }]
+        }
       />
-      <GenerateOptions project={project}/>
+      <GenerateOptions 
+        project={project} 
+        selectedVersion={selectedVersion}
+      />
     </Layout>
   );
 };

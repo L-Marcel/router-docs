@@ -3,11 +3,21 @@ import { motion } from "framer-motion";
 import { fadeToTop } from "../../theme/animations";
 import { IconType } from "react-icons";
 import { Button } from "../Button";
+import { api } from "../../services/api";
+import RealtimeClient from "../../services/pusher/client";
+import { getProjectChannel } from "../../utils/getProjectChannel";
+import { useRealtimeProgressState } from "../../contexts/hooks/useRealtimeProgressState";
 
 interface GenerateOptionsItemProps extends AccordionItemProps {
   isSelected?: boolean;
   isDisabled?: boolean;
+  project: Project;
   title: string;
+  description?: string;
+  selectedVersion: {
+    id: string;
+    version: string;
+  };
   icon?: IconType;
   onClick?: () => void;
 };
@@ -16,10 +26,43 @@ function GenerateOptionsItem({
   title, 
   isSelected = false,
   isDisabled = false,
+  description,
+  project,
+  selectedVersion,
   onClick,
   icon,
   ...rest
 }: GenerateOptionsItemProps) {
+  const { setRealtimeProgressState } = useRealtimeProgressState();
+  async function handleStartGeneration() {
+    const v = selectedVersion;
+    const channel = getProjectChannel(project, v);
+    
+    RealtimeClient.event<RealtimeProgressState>(channel, "template", async(data) => {
+      setRealtimeProgressState({
+        ...data
+      });
+
+      if(data.progress >= 100) {
+        RealtimeClient.removeChannel(channel);
+      };
+    });
+
+    setRealtimeProgressState({
+      progress: 0,
+      state: "Loading",
+      message: "Sending request..."
+    });
+
+    api.post("/projects/document/generate/blank", {
+      project: project.id,
+      version: v.version,
+      id: v.id === "new" || 
+      v.id === "invalid"? 
+      undefined:v.id
+    });
+  };
+
   return (
     <AccordionItem
       isDisabled={isDisabled}
@@ -83,15 +126,18 @@ function GenerateOptionsItem({
         display="flex"
         flexDir="column"
       >
-        <Text mb={3}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-          veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-          commodo consequat.
+        <Text 
+          mb={3}
+          whiteSpace="pre-wrap"
+        >
+          {description}
         </Text>
         <Button
           colorScheme="primary"
+          alignSelf="flex-start"
           w="min-content"
+          onClick={handleStartGeneration}
+          disabled={selectedVersion.id === "" && selectedVersion.version === ""}
         >
           continue
         </Button>
