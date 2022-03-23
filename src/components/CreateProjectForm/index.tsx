@@ -41,7 +41,6 @@ function CreateProjectForm() {
   };
 
   useEffect(() => {
-    console.log(user);
     if(!!user.id) {
       api.get("/user/repositories").then((res) => {
         setIsLoadingRepositories(false);

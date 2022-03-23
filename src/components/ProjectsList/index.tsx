@@ -23,13 +23,12 @@ function ProjectsList() {
     isLoading,
     isError,
     isFetching,
-    remove
+    remove,
   } = useQuery<ProjectList>(["projects", currentPage, search, user.email], () => {
     return api.get(`/projects?page=${currentPage}&itemsPerPage=${9}&name=${search}`).then((res) => res.data)
   }, {
     enabled: user.id.length > 0,
     keepPreviousData: true,
-    staleTime: 1000 * 60 * 10,
     refetchOnWindowFocus: true
   });
 

@@ -1,6 +1,4 @@
 import axios from "axios";
-import { signOut } from "next-auth/react";
-import Router from "next/router";
 import { localStorageExist } from "../utils/localStorageExists";
 
 export const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? undefined;
@@ -8,8 +6,6 @@ export const baseUrl = process.env.NEXT_PUBLIC_API_URL ?? undefined;
 const api = axios.create({
   baseURL: baseUrl
 });
-
-
 
 api.interceptors.request.use(config => {
   if(localStorageExist() && !config.headers.common["user"]) {
@@ -19,25 +15,6 @@ api.interceptors.request.use(config => {
   };
 
   return config;
-})
-
-api.interceptors.response.use(config => config, (error) => {
-  const { response: res, config } = error;
-
-  /*if(res.status === 401 && !config._notFirstError && config.url.inclues("github")) {
-    error.config._notFirstError = true;
-    console.log(config.url);
-
-    return api(config);
-  } else if(res.status === 401) {
-    console.log(config, "sing out");
-    signOut().then(() => {
-      Router.push("/");
-      localStorage.removeItem("user");
-    });
-  };*/
-
-  return Promise.reject(error);
-})
+});
 
 export { api };

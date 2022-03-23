@@ -58,11 +58,11 @@ model VerificationToken {
 
 model Project {
   id                    String            @id @default(uuid())
-  name                  String
+  name                  String    
   formattedName         String            @default("")
   formattedDescription  String            @default("")
   description           String            @default("")
-  repository            String
+  repository            String            @unique
   root                  String            @default("/")
   baseUrl               String?
   haveExpress           Boolean           @default(false)

@@ -6,11 +6,13 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "../services/api";
 import { sleep } from "../utils/sleep";
+import { useToast } from "@chakra-ui/react";
 
 export const appContext = createContext({} as AppContext);
 
 function AppProvider({ children }) {
   const router = useRouter();
+  const toast = useToast();
   const [refresh, setRefresh] = useState<Refresh>({
     remove: () => {},
     update: () => {}
@@ -113,6 +115,39 @@ function AppProvider({ children }) {
       signIn("github"); // Force sign in to hopefully resolve error
     };
   }, [session, router]);
+
+  useEffect(() => {
+    api.interceptors.response.use(config => config, (error) => {
+      const { response: res, config } = error;
+    
+      if(!toast.isActive(res.status)) {
+        toast({
+          id: res.status,
+          title: res.status,
+          variant: "subtle",
+          isClosable: true,
+          position: "top-right",
+        });  
+      };
+
+      if(res.status === 401 && !config._notFirstError && !config.url.includes("github")) {
+        error.config._notFirstError = true;
+        console.log(config.url);
+    
+        return api(config);
+      }; 
+      
+      /*else if(res.status === 401) {
+        console.log(config, "sing out");
+        signOut().then(() => {
+          Router.push("/");
+          localStorage.removeItem("user");
+        });
+      };*/
+    
+      return Promise.reject(error);
+    });
+  }, [toast, api]);
   
   return (
     <appContext.Provider
