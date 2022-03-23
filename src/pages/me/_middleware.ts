@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
 export async function middleware() {
-  const authorized = fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/verify")
+  const authorized = await fetch(process.env.NEXT_PUBLIC_API_URL + "/auth/verify")
   .then(() => true).catch(() => false);
 
   if(!authorized) {

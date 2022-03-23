@@ -68,7 +68,7 @@ async function create(req: ReqWithUser, res: Res) {
 
 export default async function handler(req: ReqWithUser, res: Res) {
   if(req.method === "POST") {
-    return await withMiddleware("authenticate", "createProjectValidate")(create)(req, res);
+    return await withMiddleware("authenticate")(create)(req, res);
   } else if(req.method === "GET") {
     return await withMiddleware("authenticate")(list)(req, res);
   } else {

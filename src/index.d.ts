@@ -102,6 +102,7 @@ declare type Repository = {
   haveExpress: boolean;
   havePrisma: boolean;
   version: string;
+  inUse?: boolean;
 };
 
 declare type RepositoryVersion = {
@@ -125,4 +126,12 @@ declare type RealtimeProgress<T = any> = {
 
 declare interface RealtimeProgressState<T = any> extends RealtimeProgress {
   state: "Inactivity" | "Loading" | "Finished";
+};
+
+declare type GithubUser = {
+  login: string;
+  id: number | string;
+  avatar_url: string;
+  repos_url: string;
+  name: string;
 };

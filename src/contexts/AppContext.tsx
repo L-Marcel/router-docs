@@ -54,7 +54,7 @@ function AppProvider({ children }) {
       };
     }),
   [setPagination]);
-  const [user, setUser, removeUser] = useLocalStorage<User>("user", {
+  const [user, setUser] = useLocalStorage<User>("user", {
     id: "",
     image: "",
     email: "",
@@ -95,9 +95,16 @@ function AppProvider({ children }) {
     signOut().then(() => {
       router.push("/");
       refresh.remove();
-      removeUser();
+      localStorage.setItem("user", JSON.stringify({
+        id: "",
+        image: "",
+        email: "",
+        emailVerified: new Date(),
+        name: "",
+        createdAt: new Date()
+      }));
     });
-  }, [signOut, refresh, removeUser]);
+  }, [signOut, refresh]);
 
   const { data: session } = useSession();
 
@@ -107,22 +114,6 @@ function AppProvider({ children }) {
     };
   }, [session, router]);
   
-  useEffect(() => {
-    api.defaults.headers.common["user"] = user.id;
-  }, [user, api]);
-
-  useEffect(() => {
-    if(realtimeProgressState.progress >= 100) {
-      sleep(5000).then(() => {
-        _resetRealtimeProgressState();
-      });
-    };
-  }, [
-    sleep, 
-    _resetRealtimeProgressState,
-    realtimeProgressState.progress
-  ]);
-
   return (
     <appContext.Provider
       value={{

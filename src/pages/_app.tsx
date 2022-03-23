@@ -1,5 +1,5 @@
 import { AnimateSharedLayout } from "framer-motion";
-import { AppProps } from "next/app";
+import { AppProps, NextWebVitalsMetric } from "next/app";
 import { useEffect, useState } from "react";
 import { AllProviders } from "../contexts/AllProviders";
 import { theme } from "../theme/default";
@@ -7,6 +7,10 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient } from "react-query";
 
 const queryClient = new QueryClient();
+
+export function reportWebVitals(metric: NextWebVitalsMetric) {
+  //console.log(metric);
+}
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [showChild, setShowChild] = useState(false);

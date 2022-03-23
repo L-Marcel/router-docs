@@ -26,7 +26,7 @@ export class ProjectVersions {
     return await db.projectVersion.update({
       data: projectVersions,
       where: {
-        id
+        id: id
       }
     });
   };

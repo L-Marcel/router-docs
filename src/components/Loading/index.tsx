@@ -69,18 +69,20 @@ function Loading({
         zIndex={100}
       />
       {title && <Heading
+        as={motion.h1}
         mt={2}
         color="primary.800"
+        {...fadeToTop}
       >
         {title}
       </Heading>}
-      <Text
+      <Box
         color="primary.500"
         fontSize={[18, 24]}
         fontWeight="medium"
         display="flex"
         alignItems="center"
-        as={motion.p}
+        as={motion.div}
         {...fadeToTop}
       >
         {withCount && <Counter
@@ -88,7 +90,7 @@ function Loading({
           to={counterValue}
           mr="4px"
         />}<Text mb="2px" mr="4px">{">"}</Text><motion.span ref={el}/>
-      </Text>
+      </Box>
     </Box>
   );
 };

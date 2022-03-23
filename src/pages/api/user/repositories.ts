@@ -3,11 +3,11 @@ import { withMiddleware } from "../../../services/middlewares";
 
 async function listRepositories(req: ReqWithUser, res: Res) {
   const { id } = req.user;
+  const { justNotInUse } = req.query;
 
-  const github = new Github();
-  await github.init(id);
+  const github = await new Github().init(id);
 
-  const repositories: Repository[] = await github.getRepositories();
+  let repositories: Repository[] = await github.getRepositories(Boolean(justNotInUse));
 
   return res.status(200).json(repositories);
 };
@@ -15,7 +15,7 @@ async function listRepositories(req: ReqWithUser, res: Res) {
 export default async function handler(req: ReqWithUser, res: Res) {
   if(req.method === "GET") {
     return await withMiddleware("authenticate")(listRepositories)(req, res);
-  } else  {
+  } else {
     return res.status(404);
   };
 }

@@ -3,6 +3,20 @@ import { db } from "../services/prismaClient";
 import { projectFormat } from "../utils/projectFormat";
 
 export class Projects {
+  static async checkUserSpecialPermissions(id?: string, tokenUserId?: string) {
+    const project = await Projects.find({
+      id,
+      user: {
+        id: tokenUserId
+      }
+    });
+
+    if(!project) {
+      return false;
+    };
+
+    return true;
+  };
   static async create(project: Prisma.ProjectCreateInput, userId: string) {
     const formattedProject = await projectFormat({ ...project } as any, userId, {
       getCount: false,

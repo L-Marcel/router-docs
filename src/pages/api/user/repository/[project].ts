@@ -10,9 +10,8 @@ async function getRepository(req: ReqWithUser, res: Res) {
     id: String(project)
   }); 
 
-  const github = new Github();
-  await github.init(id);
-
+  const github = await new Github().init(id);
+  
   const repository = await github.getRepository(fullName);
 
   return res.status(200).json(repository);

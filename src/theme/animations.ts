@@ -1,5 +1,3 @@
-import { AnimationProps } from "framer-motion";
-
 const fadeCascate = {
   initial: "hidden",
   animate: "visible",

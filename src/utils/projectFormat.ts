@@ -47,6 +47,7 @@ async function projectFormat(
 
   return {
     ...p,
+    repository: p.repository.toLowerCase(),
     formattedName: p.name.slice(0, 17) + (p.name.length > 17? "...":""),
     formattedDescription: p.description.slice(0, 213) + (p.description.length > 213? "...":""),
     haveExpress,

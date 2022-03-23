@@ -4,7 +4,6 @@ const secret = process.env.NEXTAUTH_SECRET;
 
 export default async function verify(req: Req, res: Res) {
   const token = await getToken({ req, secret });
-  console.log(req, secret);
 
   if(!token) {
     return res.status(401).json({

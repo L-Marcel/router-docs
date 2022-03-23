@@ -16,7 +16,6 @@ import { getGenerateOptionsList } from "../../../../../utils/getGenerateOptionsA
 
 interface GenerateProps {
   project: ProjectWithVersions;
-  repository: Repository;
 };
 
 function GeneratePage({ project }: GenerateProps) {
@@ -155,9 +154,9 @@ export const getStaticPaths: GetStaticPaths = async() => {
 };
 
 export const getStaticProps: GetStaticProps = async({ params }) => {
-  const { project: id } = params;
-  const project = await api.get<Project>(`/projects/${id}`).then(res => res.data);
-  
+  const { slug } = params;
+  const project = await api.get<Project>(`/projects/${slug}`).then(res => res.data);
+
   return {
     props: {
       project

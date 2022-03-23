@@ -1,6 +1,8 @@
 import { Box, BoxProps } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import Head from "next/head";
 import { useRealtimeProgressState } from "../../contexts/hooks/useRealtimeProgressState";
+import { fadeCascate } from "../../theme/animations";
 import { Loading } from "../Loading";
 import { LayoutBody } from "./LayoutBody";
 
@@ -35,6 +37,8 @@ function Layout({
       </LayoutBody>
       { state !== "Inactivity" &&
         <Box
+          as={motion.div}
+          data-testid="layout-loading"
           position="absolute"
           display="flex"
           flexDir="column"
@@ -46,6 +50,7 @@ function Layout({
           top={0}
           left={0}
           bgColor="white"
+          {...fadeCascate}
         >
           <Loading
             loop={false}

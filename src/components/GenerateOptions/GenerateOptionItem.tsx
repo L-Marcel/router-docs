@@ -7,6 +7,8 @@ import { api } from "../../services/api";
 import RealtimeClient from "../../services/pusher/client";
 import { getProjectChannel } from "../../utils/getProjectChannel";
 import { useRealtimeProgressState } from "../../contexts/hooks/useRealtimeProgressState";
+import { sleep } from "../../utils/sleep";
+import { useRouter } from "next/router";
 
 interface GenerateOptionsItemProps extends AccordionItemProps {
   isSelected?: boolean;
@@ -33,7 +35,11 @@ function GenerateOptionsItem({
   icon,
   ...rest
 }: GenerateOptionsItemProps) {
-  const { setRealtimeProgressState } = useRealtimeProgressState();
+  const route = useRouter();
+  const { 
+    setRealtimeProgressState,
+    resetRealtimeProgressState
+  } = useRealtimeProgressState();
   async function handleStartGeneration() {
     const v = selectedVersion;
     const channel = getProjectChannel(project, v);
@@ -45,6 +51,10 @@ function GenerateOptionsItem({
 
       if(data.progress >= 100) {
         RealtimeClient.removeChannel(channel);
+        await sleep(5000);
+        route.push(`/me/projects/${project.id}`).then(() => {
+          resetRealtimeProgressState();
+        });
       };
     });
 
@@ -54,7 +64,7 @@ function GenerateOptionsItem({
       message: "Sending request..."
     });
 
-    api.post("/projects/document/generate/blank", {
+    api.post("/projects/doc/generate/blank", {
       project: project.id,
       version: v.version,
       id: v.id === "new" || 
