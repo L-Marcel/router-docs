@@ -1,8 +1,8 @@
 Roadmap
 
 [x] - Errors nortifications
-[] - Best responsively in current pages
-[] = Best animation in menu on mobile version
-[] = Github token refresh feature
+[x] - Best responsively in current pages
+[x] - Best animation in menu on mobile version
+[] - Github token refresh feature
 [] - Owner project page
 [] - Public project page
