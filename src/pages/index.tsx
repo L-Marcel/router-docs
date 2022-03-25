@@ -25,7 +25,7 @@ function MainPage() {
   if(session.status !== "unauthenticated") {
     return (
       <LoadingFeedback
-        title="R.Docs: Cheking Session"
+        title="R.Docs: Checking Session"
       />
     );
   };

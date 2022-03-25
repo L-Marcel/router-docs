@@ -5,11 +5,17 @@ async function listRepositories(req: ReqWithUser, res: Res) {
   const { id } = req.user;
   const { justNotInUse } = req.query;
 
-  const github = await new Github().init(id);
+  try {
+    const github = await new Github().init(id);
 
-  let repositories: Repository[] = await github.getRepositories(Boolean(justNotInUse));
+    let repositories: Repository[] = await github.getRepositories(Boolean(justNotInUse));
 
-  return res.status(200).json(repositories);
+    return res.status(200).json(repositories);
+  } catch (error) {
+    res.status(400).json({
+      message: error.message
+    });
+  };
 };
 
 export default async function handler(req: ReqWithUser, res: Res) {

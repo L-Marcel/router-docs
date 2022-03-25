@@ -2,7 +2,6 @@ import { FormControl, Stack, Tag, Text} from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Input } from "../Input";
 import { MdDriveFileRenameOutline } from "react-icons/md";
-import { CgNametag } from "react-icons/cg";
 import { BsPencilSquare } from "react-icons/bs";
 import { AiFillFolderOpen, AiOutlineLink } from "react-icons/ai";
 import { motion } from "framer-motion";
@@ -42,7 +41,7 @@ function CreateProjectForm() {
 
   useEffect(() => {
     if(!!user.id) {
-      api.get("/user/repositories").then((res) => {
+      api.get("/user/repositories?justNotInUse=true").then((res) => {
         setIsLoadingRepositories(false);
         setRepositories(res.data);
       }).catch(err => console.log(err));
@@ -55,7 +54,7 @@ function CreateProjectForm() {
     } else if(repositories.some(r => r.fullName === name)) {
       setValue("name", repository);
     };
-  }, [repository, name]);
+  }, [repositories, repository, name]);
 
   return (
     <FormControl

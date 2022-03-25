@@ -37,7 +37,7 @@ function SimplePageHeader({
         href={href}
         bgColor="transparent"
         px={0}
-        mb={-1}
+        mb={[2, -1, -1, -1, -1]}
         color="primary.800"
         size="sm"
         _hover={{
@@ -58,6 +58,7 @@ function SimplePageHeader({
         as={motion.h1}
         color="primary.600"
         ml="-1px"
+        fontSize={[20, 30, 40]}
         {...fadeToTop}
       >
         {title}
@@ -66,8 +67,9 @@ function SimplePageHeader({
         subtitle && <Text
           as={motion.p}
           mt={-1} 
-          mb={2}
+          mb={[4, 2, 2, 2, 2]}
           fontWeight="light"
+          fontSize={[14, 18, 20]}
           {...fadeToTop}
         >
           {subtitle}

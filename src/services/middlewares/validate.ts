@@ -1,5 +1,4 @@
 import Joi from "joi";
-import { Users } from "../../models/users";
 
 export async function validate(req: ReqWithUser, res: Res, next: () => Promise<void>, schema: Joi.ObjectSchema) {
   const data = req.body;

@@ -2,6 +2,7 @@ import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { Layout } from "../../../components/Layout";
 import { LoadingFeedback } from "../../../components/Loading/LoadingFeedback";
+import { MenuGroup } from "../../../components/MenuGroup";
 import { api } from "../../../services/api";
 
 interface ProjectProps {
@@ -28,6 +29,7 @@ function ProjectPage({ project }: ProjectProps) {
       h="100vh"
     >
       <h1>{}</h1>
+      <MenuGroup/>
     </Layout>
   );
 };
@@ -40,9 +42,18 @@ export const getStaticPaths: GetStaticPaths = async() => {
 };
 
 export const getStaticProps: GetStaticProps = async({ params }) => {
-  const { slug } = params;
-  const project = await api.get<Project>(`/projects/${slug}`).then(res => res.data);
+  const { id } = params;
+  const project = await api.get<Project>(`/projects/${id}`)
+  .then(res => res.data).catch(() => false);
   
+  if(!project) {
+    return {
+      notFound: true
+    };
+  };
+  
+  console.log(project);
+
   return {
     props: {
       project

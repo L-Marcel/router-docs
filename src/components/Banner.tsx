@@ -24,9 +24,9 @@ function Banner({ title = "", description = "" }: BannerProps) {
       <Text
         data-testid="description"
         as={motion.p}
-        maxW={["80%", "50%"]}
+        maxW={["95%", "50%"]}
         textAlign="center"
-        fontSize={[15, 18]}
+        fontSize={[14, 18]}
         mb={5}
         {...fadeToTop}
       >

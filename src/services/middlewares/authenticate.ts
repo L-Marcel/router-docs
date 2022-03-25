@@ -13,7 +13,6 @@ export async function authenticate(req: ReqWithUser, res: Res, next: () => Promi
 
 
   if(!user || !token || token.name !== user.name || token.email !== user.email) {
-    console.log("a");
     return res.status(401).json({
       message: "Unauthorized"
     });

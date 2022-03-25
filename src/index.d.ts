@@ -74,6 +74,7 @@ declare type AppContext = {
     realtimeProgressState: RealtimeProgressState
   ) => void;
   resetRealtimeProgressState: () => void;
+  callToast: (data: ToastData) => void;
 };
 
 declare interface AppProviderProps {
@@ -134,4 +135,13 @@ declare type GithubUser = {
   avatar_url: string;
   repos_url: string;
   name: string;
+};
+
+declare type ToastData = {
+  title: string;
+  description?: string;
+  status?: number;
+  type: "info" | "warning" | "error" | "success";
+  onClose?: () => void;
+  duration?: number;
 };

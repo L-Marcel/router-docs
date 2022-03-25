@@ -6,6 +6,8 @@ import { theme } from "../theme/default";
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient } from "react-query";
 
+import "focus-visible/dist/focus-visible.min.js";
+
 const queryClient = new QueryClient();
 
 export function reportWebVitals(metric: NextWebVitalsMetric) {

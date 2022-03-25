@@ -63,8 +63,8 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
           <Heading
             maxW="90%"
             as={motion.h1}
-            lineHeight="30px"
-            fontSize={30}
+            lineHeight={["20px", "22px", "30px"]}
+            fontSize={[20, 22, 30]}
             color="primary.800"
             mb={-1}
           >

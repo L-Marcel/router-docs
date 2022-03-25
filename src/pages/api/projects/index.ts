@@ -6,64 +6,76 @@ async function list(req: ReqWithUser, res: Res) {
   const { page, itemsPerPage, name } = req.query;
   const { id } = req.user;
 
-  const projects = await Projects.list({
-    name: {
-      contains: String(name ?? "") ?? undefined
-    },
-    user: {
-      id
-    },
-  });
-
-  const qtdProjects = projects.length;
+  try {
+    const projects = await Projects.list({
+      name: {
+        contains: String(name ?? "") ?? undefined
+      },
+      user: {
+        id
+      },
+    });
   
-  const projectsPerPage = Number(itemsPerPage ?? 10);
-
-  const diff = qtdProjects % projectsPerPage;
-  const qtdPages = (qtdProjects - diff)/projectsPerPage + (diff > 0? 1:0);
-  const firstPage = 1;
-  const lastPage = qtdPages > 0? qtdPages:1;
-
-  let currentPage = Number(page ?? 1);
+    const qtdProjects = projects.length;
+    
+    const projectsPerPage = Number(itemsPerPage ?? 10);
   
-  if(currentPage > lastPage) {
-    currentPage = lastPage;
-  } else if(currentPage < firstPage) {
-    currentPage = firstPage;
+    const diff = qtdProjects % projectsPerPage;
+    const qtdPages = (qtdProjects - diff)/projectsPerPage + (diff > 0? 1:0);
+    const firstPage = 1;
+    const lastPage = qtdPages > 0? qtdPages:1;
+  
+    let currentPage = Number(page ?? 1);
+    
+    if(currentPage > lastPage) {
+      currentPage = lastPage;
+    } else if(currentPage < firstPage) {
+      currentPage = firstPage;
+    };
+  
+    const startIn = (currentPage - 1) * projectsPerPage;
+    const endIn = startIn + projectsPerPage;
+    let projectsInPage = projects.slice(startIn, endIn);
+  
+    return res.status(200).json({
+      currentPage,
+      lastPage,
+      firstPage,
+      projects: projectsInPage
+    });
+  } catch (error) {
+    res.status(400).json({
+      message: error.message
+    });
   };
-
-  const startIn = (currentPage - 1) * projectsPerPage;
-  const endIn = startIn + projectsPerPage;
-  let projectsInPage = await projects.slice(startIn, endIn);
-
-  return res.status(200).json({
-    currentPage,
-    lastPage,
-    firstPage,
-    projects: projectsInPage
-  });
 };
 
 async function create(req: ReqWithUser, res: Res) {
   const { version, ...data } = req.body;
   const { id } = req.user;
 
-  const projectCreated = await Projects.create({
-    ...data,
-    versions: {
-      create: {
-        version,
-        formattedCreatedAt: dateFormat(new Date())
+  try {
+    const projectCreated = await Projects.create({
+      ...data,
+      versions: {
+        create: {
+          version,
+          formattedCreatedAt: dateFormat(new Date())
+        }
+      },
+      user: {
+        connect: {
+          id
+        }
       }
-    },
-    user: {
-      connect: {
-        id
-      }
-    }
-  }, id);
+    }, id);
 
-  return res.status(200).json(projectCreated);
+    return res.status(200).json(projectCreated);
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message
+    });
+  };
 };
 
 export default async function handler(req: ReqWithUser, res: Res) {

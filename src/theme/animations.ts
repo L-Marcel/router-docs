@@ -105,7 +105,7 @@ const expandToLeft = {
       scaleX: 1,
       x: 0,
       transition: {
-        delay: .1,
+        delay: .3,
       }
     }
   }

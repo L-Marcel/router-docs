@@ -5,8 +5,9 @@ import { useLocalStorage } from "react-use";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "../services/api";
-import { sleep } from "../utils/sleep";
-import { useToast } from "@chakra-ui/react";
+import { Box, useToast } from "@chakra-ui/react";
+import { Toast } from "../components/Toast";
+
 
 export const appContext = createContext({} as AppContext);
 
@@ -110,6 +111,43 @@ function AppProvider({ children }) {
 
   const { data: session } = useSession();
 
+  const callToast = useCallback(({
+    onClose,
+    title,
+    type,
+    description,
+    status,
+    duration
+  }: ToastData) => {
+    const id = status ?? title;
+    const _duration = duration ?? 1000 * (
+      (title.includes(" ")? title.split(" ").length:5) +
+      (description && description.includes(" ")? description.split(" ").length:0)
+    );
+  
+    !toast.isActive(id) && toast({
+      id,
+      status: type,
+      render: ({ onClose: defaultOnClose }) => {
+        return (
+          <Toast
+            title={title}
+            type={type}
+            status={status}
+            description={description}
+            onClose={() => {
+              onClose && onClose();
+              defaultOnClose();
+            }}
+          />
+        );
+      },
+      isClosable: true,
+      position: "top-right",
+      duration: _duration
+    });  
+  }, [toast]);
+
   useEffect(() => {
     if (session?.error === "RefreshAccessTokenError" && router.asPath !== "/") {
       signIn("github"); // Force sign in to hopefully resolve error
@@ -120,30 +158,28 @@ function AppProvider({ children }) {
     api.interceptors.response.use(config => config, (error) => {
       const { response: res, config } = error;
     
-      if(!toast.isActive(res.status)) {
-        toast({
-          id: res.status,
-          title: res.status,
-          variant: "subtle",
-          isClosable: true,
-          position: "top-right",
-        });  
-      };
-
-      if(res.status === 401 && !config._notFirstError && !config.url.includes("github")) {
+      if(res.status === 401 && !config._notFirstError) {
         error.config._notFirstError = true;
-        console.log(config.url);
-    
-        return api(config);
-      }; 
-      
-      /*else if(res.status === 401) {
-        console.log(config, "sing out");
-        signOut().then(() => {
-          Router.push("/");
-          localStorage.removeItem("user");
+
+        callToast({
+          title: error.message,
+          type: "error",
+          status: res.status
         });
-      };*/
+    
+        return api(config).catch(() => {
+          signOut().then(() => {
+            router.push("/");
+            localStorage.removeItem("user");
+          });
+        });
+      } else {
+        callToast({
+          title: error.message,
+          type: "error",
+          status: res.status
+        });
+      }; 
     
       return Promise.reject(error);
     });
@@ -166,7 +202,8 @@ function AppProvider({ children }) {
         signOut: callSignOut,
         realtimeProgressState,
         setRealtimeProgressState: _setRealtimeProgressState,
-        resetRealtimeProgressState: _resetRealtimeProgressState
+        resetRealtimeProgressState: _resetRealtimeProgressState,
+        callToast
       }}
     >
       {children}

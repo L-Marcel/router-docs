@@ -12,7 +12,12 @@ interface ButtonProps extends CButtonProps {
   rotateOnHover?: number;
 };
 
-function Button({ icon, children, href, ...rest }: ButtonProps) {
+function Button({ 
+  icon, 
+  children, 
+  href, 
+  ...rest
+}: ButtonProps) {
   if(href) {
     return (
       <NextLink
@@ -21,13 +26,22 @@ function Button({ icon, children, href, ...rest }: ButtonProps) {
         data-testid="link"
       >
         <Link
+          tabIndex={-1}
           _hover={{
             textDecoration: null
           }}
+          ml={rest.ml}
+          mt={rest.mt}
+          mr={rest.mr}
+          mb={rest.mb}
         >
           <DefaultButton
-            icon={icon} 
+            icon={icon}
             {...rest}
+            ml={0}
+            mt={0}
+            mr={0}
+            mb={0}
           >
             {children}
           </DefaultButton>

@@ -22,6 +22,7 @@ function MenuGroup() {
     >
       { isOpen && <MenuGroupButtons/> }
       <Button
+        tabIndex={1}
         role="icon-button"
         data-testid="menu-main-button"
         icon={isOpen? RiArrowDropDownLine:RiArrowDropUpLine}

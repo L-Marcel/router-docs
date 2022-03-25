@@ -21,7 +21,8 @@ function Loading({
   withCount = false,
   counterValue = 0,
   counterSuffix,
-  mt = -8,
+  mt = [8, 0, 0, -8, -8],
+  ml = [8, 0, 0, -8, -8],
   ...rest 
 }: LoadingProps) {
 	const el = useRef(null);
@@ -47,16 +48,9 @@ function Loading({
     
     return () => typed.current.destroy();
   }, [strings, loop, typed]);
-
-  useEffect(() => {
-
-  }, []);
-
+  
   return (
-    <Box
-      mt={mt}
-      {...rest}
-    >
+    <>
       <Progress
         colorScheme="primary"
         isIndeterminate={!withCount}
@@ -68,30 +62,52 @@ function Loading({
         w="100%"
         zIndex={100}
       />
-      {title && <Heading
-        as={motion.h1}
-        mt={2}
-        color="primary.800"
-        {...fadeToTop}
-      >
-        {title}
-      </Heading>}
       <Box
-        color="primary.500"
-        fontSize={[18, 24]}
-        fontWeight="medium"
+        mt={mt}
+        ml={ml}
+        position="absolute"
         display="flex"
+        flexDir="column"
+        top={0}
+        left={0}
+        right={[null, 0, 0, 0, 0]}
+        bottom={[null, 0, 0, 0, 0]}
+        justifyContent="center"
         alignItems="center"
-        as={motion.div}
-        {...fadeToTop}
+        {...rest}
       >
-        {withCount && <Counter
-          suffix={counterSuffix}
-          to={counterValue}
-          mr="4px"
-        />}<Text mb="2px" mr="4px">{">"}</Text><motion.span ref={el}/>
+        <Box
+          display="flex"
+          flexDir="column"
+          justifyContent="center"
+        >
+          {title && <Heading
+            as={motion.h1}
+            mt={2}
+            fontSize={[18, 24, 30]}
+            color="primary.800"
+            {...fadeToTop}
+          >
+            {title}
+          </Heading>}
+          <Box
+            color="primary.500"
+            fontSize={[18, 24]}
+            fontWeight="medium"
+            display="flex"
+            alignItems="center"
+            as={motion.div}
+            {...fadeToTop}
+          >
+            {withCount && <Counter
+              suffix={counterSuffix}
+              to={counterValue}
+              mr="4px"
+            />}<Text mb="2px" alignSelf="flex-start" mr="4px">{">"}</Text><motion.span ref={el}/>
+          </Box>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 

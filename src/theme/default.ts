@@ -20,6 +20,7 @@ export const theme = extendTheme({
       "*": {
         userSelect: "none",
         transition: "filter .2s linear !important",
+        WebkitTapHighlightColor: "transparent"
       },
       "::-webkit-scrollbar": {
         w: 2,
@@ -53,12 +54,9 @@ export const theme = extendTheme({
       ".primary-progressbar > div[role='progressbar']": {
         bg: colors.primary[500]
       },
-      "*:focus": {
-        boxShadow: "none !important",
-        outline: "none !important"
-      },
-      "input:focus": {
-        boxShadow: "none !important"
+      ".js-focus-visible :focus:not([data-focus-visible-added])": { 
+        outline: "none",
+        boxShadow: "none" 
       },
       ".chakra-checkbox__control:not([data-checked])": {
         color: "var(--primary) !important",
