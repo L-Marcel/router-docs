@@ -19,6 +19,8 @@ export class Github {
         }
       });
 
+      console.log(providerAccountId, access_token);
+
       this.token = access_token;
       this.account = providerAccountId;
 
@@ -64,6 +66,7 @@ export class Github {
     previousData: Repository[] = []
   ): Promise<Repository[]> {
     const { account } = this;
+    console.log(api.defaults.headers.common["Authorization"]);
     return await api.get(`https://api.github.com/user/${account}/repos?page=${page}`)
     .then(async(res) => {
       const repositories: Repository[] = await Promise.all(res.data.map(async(r, i) => {

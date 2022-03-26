@@ -18,6 +18,7 @@ function MenuGroup() {
       justifyContent="flex-end"
       color="primary.800"
       data-testid="menu-group"
+      zIndex={5}
       {...boxShadow()}
     >
       { isOpen && <MenuGroupButtons/> }

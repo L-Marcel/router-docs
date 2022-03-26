@@ -3,7 +3,6 @@ import { m } from "framer-motion";
 import { Button } from "../components/Button";
 import { Layout } from "../components/Layout";
 import { fadeToTop } from "../theme/animations";
-import { bg } from "../theme/effects/bg";
 
 function Error() {
   const isWideOrNormalVersion = useBreakpointValue({
@@ -13,24 +12,13 @@ function Error() {
   
   return (
     <Layout
+      position="fixed"
       title="Routerdocs: Error"
       display="flex"
       justifyContent="center"
       flexDir="row"
       alignItems="center"
     >
-      <Img 
-        as={m.img} 
-        src="/assets/500.svg"
-        position="absolute"
-        right={[26, "30%"]}
-        bottom={[0, "4%"]}
-        sizes="50%"
-        alt="A big and red 404 error message with a man with a red shirt and black hair inside the zero number searching something or someone."
-        mt={28}
-        mb={10}
-        {...fadeToTop}
-      />
       <Box
         display="flex"
         flexDir="column"
@@ -39,7 +27,6 @@ function Error() {
         bottom={0}
         ml={[0, -20]}
         mb={20}
-        {...bg({ bg: "primary.50" }) as any}
       >
         <Heading
           data-testid="title"
@@ -50,7 +37,7 @@ function Error() {
           textAlign="left"
           {...fadeToTop}
         >
-          We not found the page
+          Internal erro
         </Heading>
         <Text
           data-testid="error-description"
@@ -61,7 +48,7 @@ function Error() {
           mb={2}
           {...fadeToTop}
         >
-          Our server refused to render this page. If the problem continue, contact us.
+          We received an error on the server and are working to fix then. Please, try again.
         </Text>
         <Button
           colorScheme="primary"
@@ -74,6 +61,19 @@ function Error() {
           Voltar
         </Button>
       </Box>
+      <Img 
+        as={m.img} 
+        src="/assets/error.svg"
+        height={["180px", "250px"]}
+        position="absolute"
+        right={[25, 130, 130, 130, "30%"]}
+        bottom={["18%", "12%", "13%", "14%", "12%"]}
+        sizes="50%"
+        alt="A big and red 404 error message with a man with a red shirt and black hair inside the zero number searching something or someone."
+        mt={28}
+        mb={10}
+        {...fadeToTop}
+      />
     </Layout>
   );
 };
