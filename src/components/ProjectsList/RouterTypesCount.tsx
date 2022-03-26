@@ -24,9 +24,6 @@ function RouterTypesCount({
       {...rest}
       colorScheme="gray"
       {...fadeToTop}
-      _groupHover={{
-        ...boxShadow()
-      }}
     >
       <Tag
         borderRightRadius={0}

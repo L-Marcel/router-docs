@@ -4,7 +4,7 @@ import Document, { Head, Html, Main, NextScript } from "next/document";
 export default class MyDocument extends Document {
   render() {
     return (
-      <Html>
+      <Html lang="en">
         <Head>
           <meta name="description" content="One method to make your documentation quickly and easily, automatize and optimize your work and resolve, of course, your problems"/>
           <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true"/>

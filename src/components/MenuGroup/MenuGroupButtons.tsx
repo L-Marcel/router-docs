@@ -15,10 +15,8 @@ function MenuGroupButtons() {
         isIconButton
         fontSize={20}
         rotateOnHover={180}
-        data-testid="menu-exit-button"
-        role="icon-button"
+        data-testid="icon-button"
         onClick={signOut}
-        tabIndex={5}
       >
         exit
       </Button>
@@ -27,9 +25,7 @@ function MenuGroupButtons() {
         isIconButton
         fontSize={20}
         rotateOnHover={90}
-        data-testid="menu-help-button"
-        role="icon-button"
-        tabIndex={4}
+        data-testid="icon-button"
       >
         help
       </Button>
@@ -38,9 +34,7 @@ function MenuGroupButtons() {
         isIconButton
         fontSize={20}
         rotateOnHover={90}
-        data-testid="menu-add-project-button"
-        role="icon-button"
-        tabIndex={3}
+        data-testid="icon-button"
         href="/me/projects/create"
       >
         add project
@@ -50,10 +44,8 @@ function MenuGroupButtons() {
         isIconButton
         fontSize={20}
         rotateOnHover={90}
-        data-testid="menu-projects-button"
-        role="icon-button"
+        data-testid="icon-button"
         href="/me/projects"
-        tabIndex={2}
       >
         projects
       </Button>

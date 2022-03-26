@@ -21,7 +21,6 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
 
   return (
     <Box
-      role="group"
       position="relative"
       as={motion.div}
       display="flex"
@@ -46,8 +45,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
         ["145px 170px", "280px 150px", "175px 150px", "200px 165px", "175px 150px","220px 150px"]:
         ["70px 65px", "210px 55px", "90px 50px", "150px 60px", "70px 55px","200px 30px"],
         borderBottomWidth: 5,
-        opacity: 1,
-        brightness: 0.98
+        opacity: 1
       })}
       {...rest}
       {...fadeToTop}
@@ -72,6 +70,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
           </Heading>
           <Text
             fontSize={13}
+            as={motion.p}
             color="gray.800"
             mb={-2}
           >
@@ -98,10 +97,6 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
         mt={4}
         isIconButton
         icon={IoMdOpen}
-        _groupHover={{
-          scale: 1.1,
-          ...boxShadow(true)
-        }}
         _active={{
           bgColor: "gray.100"
         }}

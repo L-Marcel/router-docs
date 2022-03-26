@@ -28,8 +28,7 @@ function SearchBar() {
         size="md"
         minW={[null, 300, 200, 200, 300, 400]}
         maxW={["80%", "min-content"]}
-        bgColor="white"
-        color="gray.400"
+        color="primary.500"
         _focusWithin={{
           color: "primary.500"
         }}
@@ -46,7 +45,9 @@ function SearchBar() {
           />
         </InputLeftElement>
         <Input
+          bgColor="white"
           as={DebounceInput}
+          borderColor="var(--chakra-color-primary-400)!important"
           focusBorderColor="primary.400"
           pl="35px"
           placeholder="Search by name"
