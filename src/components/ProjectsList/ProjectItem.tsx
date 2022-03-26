@@ -1,5 +1,5 @@
 import { Box, BoxProps, Heading, Stack, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeToTop } from "../../theme/animations";
 import { bg } from "../../theme/effects/bg";
 import { Button } from "../Button";
@@ -22,7 +22,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
   return (
     <Box
       position="relative"
-      as={motion.div}
+      as={m.div}
       display="flex"
       w="100%"
       h={[300, 280, 300, 300, 280, 250]}
@@ -60,7 +60,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
         <Stack>
           <Heading
             maxW="90%"
-            as={motion.h1}
+            as={m.h1}
             lineHeight={["20px", "22px", "30px"]}
             fontSize={[20, 22, 30]}
             color="primary.800"
@@ -70,14 +70,14 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
           </Heading>
           <Text
             fontSize={13}
-            as={motion.p}
+            as={m.p}
             color="gray.800"
             mb={-2}
           >
             Created at: {createdAt}
           </Text>
           {description && description.length > 0 && <Text
-            as={motion.p}
+            as={m.p}
             lineHeight="19px"
             fontSize={[15, 14, 14, 16]}
           >

@@ -1,5 +1,5 @@
 import { Box, BoxProps, Heading, Img, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeCascate, fadeToTop, zeroGravityReverse } from "../../theme/animations";
 import { Button } from "../Button";
 import { SearchWithoutResultImageGirl } from "./SearchingWithoutResultImageGirl";
@@ -7,7 +7,7 @@ import { SearchWithoutResultImageGirl } from "./SearchingWithoutResultImageGirl"
 function SearchWithoutResultImage({ ...rest }: BoxProps) {
   return (
     <Box
-      as={motion.div}
+      as={m.div}
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -17,7 +17,7 @@ function SearchWithoutResultImage({ ...rest }: BoxProps) {
       {...fadeCascate}
     >
       <Box
-        as={motion.div}
+        as={m.div}
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -29,7 +29,7 @@ function SearchWithoutResultImage({ ...rest }: BoxProps) {
       >
         <SearchWithoutResultImageGirl/>
         <Img
-          as={motion.img}
+          as={m.img}
           src="/assets/searching.svg"
           alt="A girl with orange hair, white shirt and black pants floating in zero gravity inside a crazy space."
           {...zeroGravityReverse as any}
@@ -45,7 +45,7 @@ function SearchWithoutResultImage({ ...rest }: BoxProps) {
       >
         <Heading
           data-testid="title"
-          as={motion.h1}
+          as={m.h1}
           color="primary.500"
           fontSize={[20, 28, 30]}
           layoutId="title"
@@ -57,7 +57,7 @@ function SearchWithoutResultImage({ ...rest }: BoxProps) {
         </Heading>
         <Text
           data-testid="description"
-          as={motion.p}
+          as={m.p}
           maxW={["90%", "90%", "80%"]}
           textAlign="left"
           fontSize={[15, 18]}

@@ -1,5 +1,5 @@
 import { Heading, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { MouseEvent } from "react";
 import { AiOutlineDoubleLeft } from "react-icons/ai";
 import { fadeToTop } from "../theme/animations";
@@ -32,7 +32,7 @@ function SimplePageHeader({
   return (
     <>
       <Button
-        as={motion.button}
+        as={m.button}
         icon={AiOutlineDoubleLeft}
         href={href}
         bgColor="transparent"
@@ -55,7 +55,7 @@ function SimplePageHeader({
         {text}
       </Button>
       <Heading
-        as={motion.h1}
+        as={m.h1}
         color="primary.600"
         ml="-1px"
         fontSize={[20, 30, 40]}
@@ -65,7 +65,7 @@ function SimplePageHeader({
       </Heading>
       {
         subtitle && <Text
-          as={motion.p}
+          as={m.p}
           mt={-1} 
           mb={[4, 2, 2, 2, 2]}
           fontWeight="light"

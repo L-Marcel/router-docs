@@ -1,3 +1,5 @@
+import { AnimationProps } from "framer-motion";
+
 const fadeCascate = {
   initial: "hidden",
   animate: "visible",
@@ -93,18 +95,17 @@ const expandToRight = {
   }
 };
 
-const expandToLeft = {
+const fadeWithDelay = {
   initial: "hidden",
   animate: "visible",
   variants: {
     hidden: { 
-      scaleX: 0,
-      x: 20
+      opacity: 0
     },
     visible: {
-      scaleX: 1,
-      x: 0,
+      opacity: 1,
       transition: {
+        duration: .2,
         delay: .3,
       }
     }
@@ -158,7 +159,7 @@ export {
   fadeToTop,
   fadeToRight,
   expandToRight,
-  expandToLeft,
+  fadeWithDelay,
   zeroGravity,
   zeroGravityReverse,
   fadeOutToBottom

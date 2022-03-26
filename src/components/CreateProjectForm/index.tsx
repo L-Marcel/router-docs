@@ -4,7 +4,7 @@ import { Input } from "../Input";
 import { MdDriveFileRenameOutline } from "react-icons/md";
 import { BsPencilSquare } from "react-icons/bs";
 import { AiFillFolderOpen, AiOutlineLink } from "react-icons/ai";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Select } from "../Select";
 import { useEffect, useState } from "react";
 import { useUser } from "../../contexts/hooks/useUser";
@@ -58,7 +58,7 @@ function CreateProjectForm() {
 
   return (
     <FormControl
-      as={motion.form}
+      as={m.form}
       mt={2}
       onSubmit={handleSubmit(onSubmit)}
     >
@@ -109,7 +109,7 @@ function CreateProjectForm() {
           placeholder="Select repository"
         />
         <Input
-          as={motion.textarea}
+          as={m.textarea}
           pt={2}
           pb={4}
           minH={200}

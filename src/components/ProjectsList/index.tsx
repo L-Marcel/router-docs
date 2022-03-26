@@ -1,5 +1,5 @@
 import { Box, Grid, Progress } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useEffect } from "react";
 import { useQuery } from "react-query";
 import { usePagination } from "../../contexts/hooks/usePagination";
@@ -66,7 +66,7 @@ function ProjectsList() {
           ml={-5}
           {...fadeToTop}
         />:<Grid
-          as={motion.div}
+          as={m.div}
           w="100%"
           mt={5}
           templateColumns={[

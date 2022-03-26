@@ -5,7 +5,7 @@ import { useSearch } from "../../contexts/hooks/useSearch";
 import { Button } from "../Button";
 import { DebounceInput } from "react-debounce-input";
 import { fadeToTop } from "../../theme/animations";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 
 function SearchBar() {
   const { setSearch } = useSearch();
@@ -24,7 +24,7 @@ function SearchBar() {
       ml={[2, 4]}
     >
       <InputGroup
-        as={motion.div}
+        as={m.div}
         size="md"
         minW={[null, 300, 200, 200, 300, 400]}
         maxW={["80%", "min-content"]}

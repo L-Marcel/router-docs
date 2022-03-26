@@ -1,5 +1,5 @@
 import { Heading, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeToTop } from "../theme/animations";
 
 interface BannerProps {
@@ -12,7 +12,7 @@ function Banner({ title = "", description = "" }: BannerProps) {
     <>
       <Heading
         data-testid="title"
-        as={motion.h1}
+        as={m.h1}
         color="primary.500"
         fontSize={[20, 28, 30]}
         layoutId="title"
@@ -23,7 +23,7 @@ function Banner({ title = "", description = "" }: BannerProps) {
       </Heading>
       <Text
         data-testid="description"
-        as={motion.p}
+        as={m.p}
         maxW={["95%", "50%"]}
         textAlign="center"
         fontSize={[14, 18]}

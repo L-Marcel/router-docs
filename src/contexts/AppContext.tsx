@@ -5,7 +5,7 @@ import { useLocalStorage } from "react-use";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { api } from "../services/api";
-import { Box, useToast } from "@chakra-ui/react";
+import { useToast } from "@chakra-ui/react";
 import { Toast } from "../components/Toast";
 
 
@@ -145,8 +145,8 @@ function AppProvider({ children }) {
       isClosable: true,
       position: "top-right",
       duration: _duration
-    });  
-  }, [toast]);
+    });
+  }, []);
 
   useEffect(() => {
     if (session?.error === "RefreshAccessTokenError" && router.asPath !== "/") {
@@ -183,7 +183,7 @@ function AppProvider({ children }) {
     
       return Promise.reject(error);
     });
-  }, [toast, api]);
+  }, [api]);
   
   return (
     <appContext.Provider

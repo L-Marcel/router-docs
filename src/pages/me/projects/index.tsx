@@ -1,6 +1,5 @@
 import { Box } from "@chakra-ui/react";
 import { Profile } from "../../../components/Profile";
-import { MenuGroup } from "../../../components/MenuGroup";
 import { Layout } from "../../../components/Layout";
 import { ProjectsList } from "../../../components/ProjectsList";
 import { SearchBar } from "../../../components/SearchBar";
@@ -29,6 +28,7 @@ function ProjectsPage({ user }: ProjectsProps) {
       overflowY="auto"
       overflowX="hidden"
       h="100vh"
+      withMenu
     >
       <Box
         position="fixed"
@@ -49,7 +49,6 @@ function ProjectsPage({ user }: ProjectsProps) {
         <SearchBar/>
       </Box>
       <ProjectsList/>
-      <MenuGroup/>
     </Layout>
   );
 };

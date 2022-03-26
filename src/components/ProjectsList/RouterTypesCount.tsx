@@ -1,7 +1,6 @@
 import { Tag, TagProps } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeToTop } from "../../theme/animations";
-import { boxShadow } from "../../theme/effects/shadow";
 
 interface RouterTypesCount extends TagProps {
   insiderTagProps?: TagProps,
@@ -17,7 +16,7 @@ function RouterTypesCount({
 }: RouterTypesCount) {
   return (
     <Tag
-      as={motion.div}
+      as={m.div}
       pl={0}
       textTransform="capitalize"
       w="min-content"

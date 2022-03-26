@@ -1,10 +1,6 @@
-import { Box, Heading, Img, Text, useBreakpointValue } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { Button } from "../components/Button";
+import { Heading, useBreakpointValue } from "@chakra-ui/react";
 
 import { Layout } from "../components/Layout";
-import { fadeToTop } from "../theme/animations";
-import { bg } from "../theme/effects/bg";
 
 function Error({ error }) {
   const isWideOrNormalVersion = useBreakpointValue({

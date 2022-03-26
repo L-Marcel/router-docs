@@ -27,9 +27,9 @@ function ProjectPage({ project }: ProjectProps) {
       overflowY="auto"
       overflowX="hidden"
       h="100vh"
+      withMenu
     >
       <h1>{}</h1>
-      <MenuGroup/>
     </Layout>
   );
 };

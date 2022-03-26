@@ -1,5 +1,5 @@
 import { FormHelperText, Icon, Input as ChakraInput, InputGroup, InputLeftElement, InputProps as ChakraInputProps } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import React, { LegacyRef } from "react";
 import { IconType } from "react-icons";
 import { fadeToRight, fadeToTop } from "../../theme/animations";
@@ -18,7 +18,7 @@ const Input = React.forwardRef(({
   return (
     <>
       <InputGroup
-        as={motion.div}
+        as={m.div}
         w={rest.w}
         filter="drop-shadow(0px 0px 0px rgba(0, 0, 0, 0))"
         whileHover={{
@@ -30,7 +30,7 @@ const Input = React.forwardRef(({
         maxWidth={maxWidth}
       >
         {icon && <InputLeftElement
-          as={motion.div}
+          as={m.div}
           pointerEvents="none"
           {...fadeToTop}
           children={<Icon as={icon}
@@ -39,7 +39,7 @@ const Input = React.forwardRef(({
         />}
         <ChakraInput
           ref={ref}
-          as={motion.input}
+          as={m.input}
           px={4}
           _focus={{
             borderColor: "primary.500"

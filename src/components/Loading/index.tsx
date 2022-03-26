@@ -1,5 +1,5 @@
 import { Box, BoxProps, Heading, Progress, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useEffect, useRef } from "react";
 import Typed from "typed.js";
 import { fadeToTop } from "../../theme/animations";
@@ -82,7 +82,7 @@ function Loading({
           justifyContent="center"
         >
           {title && <Heading
-            as={motion.h1}
+            as={m.h1}
             mt={2}
             fontSize={[18, 24, 30]}
             color="primary.800"
@@ -96,14 +96,14 @@ function Loading({
             fontWeight="medium"
             display="flex"
             alignItems="center"
-            as={motion.div}
+            as={m.div}
             {...fadeToTop}
           >
             {withCount && <Counter
               suffix={counterSuffix}
               to={counterValue}
               mr="4px"
-            />}<Text mb="2px" alignSelf="flex-start" mr="4px">{">"}</Text><motion.span ref={el}/>
+            />}<Text mb="2px" alignSelf="flex-start" mr="4px">{">"}</Text><m.span ref={el}/>
           </Box>
         </Box>
       </Box>

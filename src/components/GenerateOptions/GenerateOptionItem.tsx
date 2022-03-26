@@ -1,5 +1,5 @@
 import { AccordionButton, AccordionItem, AccordionItemProps, AccordionPanel, Icon, Text } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeToTop } from "../../theme/animations";
 import { IconType } from "react-icons";
 import { Button } from "../Button";
@@ -76,7 +76,7 @@ function GenerateOptionsItem({
   return (
     <AccordionItem
       isDisabled={isDisabled}
-      as={motion.div}
+      as={m.div}
       display="flex"
       flexDir="column"
       alignItems="center"
@@ -122,7 +122,7 @@ function GenerateOptionsItem({
           mr={2}
         />
         <Text 
-          as={motion.p}
+          as={m.p}
           fontWeight="bold"
           {...fadeToTop}
         >

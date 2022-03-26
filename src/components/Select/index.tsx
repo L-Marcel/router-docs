@@ -1,6 +1,6 @@
 import { Box, BoxProps, FormHelperText, Tag, Text } from "@chakra-ui/react";
 import ReactSelect, { StylesConfig } from "react-select";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeToRight } from "../../theme/animations";
 import { UseFormRegisterReturn } from "react-hook-form";
 import { ReactNode, useState } from "react";
@@ -35,7 +35,7 @@ function Select({
   return (
     <>
       <Box
-        as={motion.div}
+        as={m.div}
         zIndex={90}
         w="100%"
         filter="drop-shadow(0px 0px 0px rgba(0, 0, 0, 0))"
@@ -67,7 +67,7 @@ function Select({
         maxW={maxW}
       >
         <Box
-          as={motion.div}
+          as={m.div}
           w="100%"
           animate="visible"
         >

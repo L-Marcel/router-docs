@@ -1,6 +1,11 @@
 module.exports = {
   reactStrictMode: true,
   swcMinify: true,
+  compiler: {
+    removeConsole: {
+      exclude: ['error'],
+    },
+  },
   async headers() {
     return [
       {

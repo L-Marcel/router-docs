@@ -1,8 +1,8 @@
 import { Box, Button, ButtonProps, Icon, IconButton, Text, useBreakpointValue } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { IconType } from "react-icons";
-import { expandToLeft, fadeToTop } from "../../theme/animations";
+import { fadeWithDelay, fadeToTop } from "../../theme/animations";
 
 interface DefaultButtonProps extends ButtonProps {
   children?: ReactNode;
@@ -41,7 +41,7 @@ function DefaultButton({
         {
           children && (isHoved || isSmallVersion) && <Text
             data-testid="icon-button-text"
-            as={motion.p}
+            as={m.p}
             position="absolute"
             pl={2}
             pr="35px"
@@ -52,7 +52,7 @@ function DefaultButton({
             fontSize={15}
             fontWeight="light"
             whiteSpace="nowrap"
-            {...expandToLeft}
+            {...fadeWithDelay}
           >
             {children}
           </Text>
@@ -62,7 +62,7 @@ function DefaultButton({
           data-testid="icon-button"
           w="min-content"
           icon={<Icon as={icon}/>}
-          as={motion.button}
+          as={m.button}
           onMouseEnter={() => setIsHoved(true)}
           onMouseLeave={() => setIsHoved(false)}
           borderRadius={isSmallVersion? "full":"md"}
@@ -89,7 +89,7 @@ function DefaultButton({
   return (
     <Button
       data-testid="button"
-      as={motion.button}
+      as={m.button}
       whileHover={{
         scale: .9,
       }}

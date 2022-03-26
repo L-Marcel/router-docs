@@ -1,5 +1,5 @@
 import { Accordion } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { useState } from "react";
 import { GenerateOptionsItem } from "./GenerateOptionItem";
 import { generateOptions } from "../../utils/generateOptions";
@@ -22,7 +22,7 @@ function GenerateOptions({
   return (
     <>
       <Accordion
-        as={motion.div}
+        as={m.div}
         maxW={400}
         my={2}
         alignItems="flex-start"

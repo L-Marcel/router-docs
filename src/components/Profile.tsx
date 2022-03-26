@@ -1,6 +1,4 @@
 import { Avatar, Box, BoxProps, Text, useBreakpointValue } from "@chakra-ui/react";
-import { motion } from "framer-motion";
-import { fadeToTop } from "../theme/animations";
 
 interface ProfileProps extends BoxProps {
   user: User;
@@ -14,7 +12,6 @@ function Profile({ user, ...rest }: ProfileProps) {
 
   return (
     <Box
-      as={motion.div}
       data-testid="profile"
       display="inline-flex"
       w="min-content"
@@ -32,8 +29,6 @@ function Profile({ user, ...rest }: ProfileProps) {
         w={50}
         h={50}
         borderWidth={4}
-        as={motion.div}
-        {...fadeToTop}
       />
       {isWideOrNormalVersion && <Box
         mx={3}
@@ -49,8 +44,6 @@ function Profile({ user, ...rest }: ProfileProps) {
           w="100%"
           color="primary.700"
           lineHeight="18px"
-          as={motion.p}
-          {...fadeToTop}
         >{user.name}</Text>
         <Text
           data-testid="email"
@@ -59,8 +52,6 @@ function Profile({ user, ...rest }: ProfileProps) {
           fontSize={14}
           w="100%"
           color="black"
-          as={motion.p}
-          {...fadeToTop}
         >{user.email}</Text>
       </Box>}
     </Box>

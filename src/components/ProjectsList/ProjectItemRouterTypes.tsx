@@ -1,5 +1,5 @@
 import { Grid } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { fadeCascate } from "../../theme/animations";
 import { RouterTypesCount } from "./RouterTypesCount";
 
@@ -13,7 +13,7 @@ interface ProjectItemRouterTypesProps {
 function ProjectItemRouterTypes({ posts, gets, puts, deletes }: ProjectItemRouterTypesProps) {
   return (
     <Grid
-      as={motion.div}
+      as={m.div}
       flexDir="column-reverse"
       columnGap={2}
       rowGap={2}

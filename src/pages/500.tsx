@@ -1,5 +1,5 @@
 import { Box, Heading, Img, Text, useBreakpointValue } from "@chakra-ui/react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { Button } from "../components/Button";
 import { Layout } from "../components/Layout";
 import { fadeToTop } from "../theme/animations";
@@ -20,7 +20,7 @@ function Error() {
       alignItems="center"
     >
       <Img 
-        as={motion.img} 
+        as={m.img} 
         src="/assets/500.svg"
         position="absolute"
         right={[26, "30%"]}
@@ -43,7 +43,7 @@ function Error() {
       >
         <Heading
           data-testid="title"
-          as={motion.h1}
+          as={m.h1}
           color="primary.600"
           fontSize={[18, 30, 35]}
           layoutId="error-title"
@@ -54,7 +54,7 @@ function Error() {
         </Heading>
         <Text
           data-testid="error-description"
-          as={motion.p}
+          as={m.p}
           maxW={[350, 350, 450]}
           textAlign={"left"}
           fontSize={[14, 18]}
