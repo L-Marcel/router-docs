@@ -1,5 +1,5 @@
 import { useContextSelector } from "use-context-selector";
-import { appContext } from "../AppContext";
+import { appContext } from "../AppProvider";
 
 function usePagination() {
   const { currentPage, firstPage, lastPage } = useContextSelector(appContext, c => c.pagination);

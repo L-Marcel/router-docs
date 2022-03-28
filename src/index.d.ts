@@ -81,6 +81,14 @@ declare interface AppProviderProps {
   children: import("react").ReactNode;
 };
 
+declare type ProjectOwnerContext = {
+  isSmallVersion: boolean;
+  showNavigation: boolean;
+  changeShowNavigation: () => void;
+  project: ProjectWithVersions;
+  setProject: (project: ProjectWithVersions) => void;
+};
+
 declare interface SelectOption {
   value: string;
   label: string;

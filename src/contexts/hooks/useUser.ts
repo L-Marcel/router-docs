@@ -1,5 +1,5 @@
 import { useContextSelector } from "use-context-selector";
-import { appContext } from "../AppContext";
+import { appContext } from "../AppProvider";
 
 function useUser() {
   const user = useContextSelector(appContext, c => c.user);

@@ -58,6 +58,7 @@ export const getServerSideProps: GetServerSideProps = async({ req }) => {
   
   if(session) {
     const user = await Users.find({ email: session?.user?.email });
+    
     return {
       props: {
         user

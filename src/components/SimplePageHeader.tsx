@@ -8,6 +8,7 @@ import { Button } from "./Button";
 interface SimplePageHeaderProps {
   title: string;
   subtitle?: string;
+  withoutButton?: boolean;
   redirectButton?: {
     text: string;
     href?: string;
@@ -18,6 +19,7 @@ interface SimplePageHeaderProps {
 function SimplePageHeader({
   title,
   subtitle,
+  withoutButton = false,
   redirectButton = {
     text: "Return",
     href: "/me/projects"
@@ -31,7 +33,7 @@ function SimplePageHeader({
 
   return (
     <>
-      <Button
+      { !withoutButton && <Button
         as={m.button}
         icon={AiOutlineDoubleLeft}
         href={href}
@@ -53,7 +55,7 @@ function SimplePageHeader({
         {...fadeToTop}
       >
         {text}
-      </Button>
+      </Button> }
       <Heading
         as={m.h1}
         color="primary.600"

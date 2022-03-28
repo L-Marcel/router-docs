@@ -1,6 +1,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider } from "react-query";
-import { AppProvider } from "./AppContext";
+import { AppProvider } from "./AppProvider";
 import { SessionProvider } from "next-auth/react";
 
 const composeProviders = (...providers) => props => {

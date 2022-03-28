@@ -6,12 +6,15 @@ import { Button } from "../Button";
 import { IoMdOpen } from "react-icons/io";
 import { boxShadow } from "../../theme/effects/shadow";
 import { ProjectItemRouterTypes } from "./ProjectItemRouterTypes";
+import { useRouter } from "next/router";
 
 interface ProjectItemProps extends BoxProps {
   project: FormattedProject
 };
 
 function ProjectItem({ project, ...rest }: ProjectItemProps) {
+  const router = useRouter();
+
   const {
     id,
     formattedName: name,
@@ -49,7 +52,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
       })}
       {...rest}
       {...fadeToTop}
-      onClick={() => console.log(id)}
+      onClick={() => router.push(`/me/projects/${id}`)}
     >
       <Box
         display="flex"
@@ -59,7 +62,7 @@ function ProjectItem({ project, ...rest }: ProjectItemProps) {
       >
         <Stack>
           <Heading
-            maxW="90%"
+            maxW="100%"
             as={m.h1}
             lineHeight={["20px", "22px", "30px"]}
             fontSize={[20, 22, 30]}

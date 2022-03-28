@@ -20,6 +20,7 @@ function DefaultButton({
 }: DefaultButtonProps) {
   const [isHoved, setIsHoved] = useState(false);
   const isSmallVersion = useBreakpointValue({
+    xl: false,
     md: false,
     lg: false,
     sm: false,

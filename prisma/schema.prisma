@@ -81,6 +81,7 @@ model ProjectVersion {
   id                    String            @id @default(uuid())
   version               String
 
+  position              Int               @default(0)
   createdAt             DateTime          @default(now())
   formattedCreatedAt    String            @default("")
 
@@ -96,6 +97,7 @@ model Route {
   id                    String            @id @default(uuid())
   name                  String
   path                  String            @default("/")
+  group                 String            @default("")
   description           String            @default("")
   type                  String            @default("get")
   position              Int               @default(0)

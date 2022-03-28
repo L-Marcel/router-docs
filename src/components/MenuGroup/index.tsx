@@ -25,15 +25,12 @@ function MenuGroup() {
       <Button
         data-testid="menu-main-button"
         icon={isOpen? RiArrowDropDownLine:RiArrowDropUpLine}
-        pb={!isOpen && "2px"}
-        pt={isOpen && "2px"}
+        opacity={0}
         isIconButton
         colorScheme="primary"
         borderRadius={60}
         size="lg"
-        fontSize={50}
-        w={50}
-        h={50}
+        fontSize={[40, 40, 50, 50, 50, 50]}
         onClick={() => setIsOpen(v => !v)}
       />
     </Stack>

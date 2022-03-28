@@ -5,11 +5,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withBundleAnalyzer({
   reactStrictMode: true,
   swcMinify: true,
-  compiler: {
-    removeConsole: {
-      exclude: ['error'],
-    },
-  },
   async headers() {
     return [
       {

@@ -15,12 +15,14 @@ export class ProjectVersions {
     });
   };
   static async list(where?: Prisma.ProjectVersionWhereInput) {
-    return await db.projectVersion.findMany({
+    const versions = await db.projectVersion.findMany({
       where,
       orderBy: {
         createdAt: "desc"
       }
     });
+
+    return versions.sort((a, b) => a.position - b.position);
   };
   static async update(id: string, projectVersions: Prisma.ProjectVersionUpdateInput) {
     return await db.projectVersion.update({

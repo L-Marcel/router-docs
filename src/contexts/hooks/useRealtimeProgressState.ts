@@ -1,5 +1,5 @@
 import { useContextSelector } from "use-context-selector";
-import { appContext } from "../AppContext";
+import { appContext } from "../AppProvider";
 
 function useRealtimeProgressState() {
   const realtimeProgressState = useContextSelector(appContext, c => c.realtimeProgressState);

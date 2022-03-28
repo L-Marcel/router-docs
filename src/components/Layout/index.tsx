@@ -1,5 +1,5 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import { m } from "framer-motion";
+import { domAnimation, domMax, LazyMotion, m } from "framer-motion";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRealtimeProgressState } from "../../contexts/hooks/useRealtimeProgressState";

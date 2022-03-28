@@ -31,7 +31,7 @@ export const theme = extendTheme({
         ...boxShadow()
       },
       "::-webkit-scrollbar-thumb": {
-        background: colors.primary[400],
+        background: colors.primary[400]
       },
       "::-webkit-scrollbar-thumb:hover": {
         background: colors.primary[600],

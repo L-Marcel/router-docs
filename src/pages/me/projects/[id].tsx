@@ -1,8 +1,13 @@
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { Layout } from "../../../components/Layout";
 import { LoadingFeedback } from "../../../components/Loading/LoadingFeedback";
-import { MenuGroup } from "../../../components/MenuGroup";
+import { NavigationMobileButton } from "../../../components/Navigation/NavigationMobileButton";
+import { OwnerNavigation } from "../../../components/Navigation/OwnerNavigation";
+import { ProjectOwnerContent } from "../../../components/ProjectOwnerContent";
+import { usePOProject } from "../../../contexts/hooks/ProjectOwner/usePOProject";
+import { ProjectOwnerProvider } from "../../../contexts/ProjectOwnerProvider";
 import { api } from "../../../services/api";
 
 interface ProjectProps {
@@ -11,8 +16,13 @@ interface ProjectProps {
 
 function ProjectPage({ project }: ProjectProps) {
   const router = useRouter();
+  const { setProject, project: _project } = usePOProject();
 
-  if(router.isFallback) {
+  useEffect(() => {
+    setProject(project);
+  }, [project]);
+
+  if(router.isFallback || !_project) {
     return (
       <LoadingFeedback
         title="R.Docs: Loading Project"
@@ -26,10 +36,14 @@ function ProjectPage({ project }: ProjectProps) {
       display="inline-flex"
       overflowY="auto"
       overflowX="hidden"
+      p={0}
+      flexDir="row"
       h="100vh"
       withMenu
     >
-      <h1>{}</h1>
+      <OwnerNavigation/>
+      <ProjectOwnerContent/>
+      <NavigationMobileButton/>
     </Layout>
   );
 };
@@ -61,4 +75,12 @@ export const getStaticProps: GetStaticProps = async({ params }) => {
   };
 };
 
-export default ProjectPage;
+function ProjectOwnerPage(props: any) {
+  return (
+    <ProjectOwnerProvider>
+      <ProjectPage {...props}/>
+    </ProjectOwnerProvider>
+  );
+};
+
+export default ProjectOwnerPage;

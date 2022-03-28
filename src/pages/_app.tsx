@@ -1,6 +1,5 @@
 import { domAnimation, LazyMotion, MotionConfig } from "framer-motion";
 import { AppProps, NextWebVitalsMetric } from "next/app";
-import { useState } from "react";
 import { AllProviders } from "../contexts/AllProviders";
 import { theme } from "../theme/default";
 import { ReactQueryDevtools } from 'react-query/devtools';

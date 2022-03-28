@@ -152,6 +152,83 @@ const zeroGravityReverse = {
   },
 };
 
+const moveNavigationToRight = {
+  initial: "hidden",
+  animate: "visible",
+  variants: {
+    hidden: {
+      opacity: [1, 1, 0],
+      width: [300, 300, 0],
+      x: [0, 0, -300],
+      color: "var(--chakra-colors-gray-50)",
+      transition: {
+        times: [0, .5, 1],
+        duration: .5
+      }
+    },
+    visible: {
+      opacity: [0, 1, 1],
+      width: [0, 300, 300],
+      x: [-300, 0, 0],
+      color: "var(--chakra-colors-primary-400)",
+      transition: {
+        times: [0, .5, 1],
+        duration: .5
+      }
+    }
+  }
+};
+
+const moveOnNavigationChange = {
+  initial: "reduced",
+  animate: "expanded",
+  variants: {
+    reduced: {
+      marginLeft: [
+        0,
+        300,
+        300
+      ],
+      transition: {
+        times: [0, .5, 1],
+        duration: .5
+      }
+    },
+    expanded: {
+      marginLeft: [
+        300,
+        300,
+        0
+      ],
+      transition: {
+        times: [0, .5, 1],
+        duration: .5
+      }
+    }
+  }
+};
+
+const fadeNavigationOverlay = {
+  initial: "reduced",
+  animate: "expanded",
+  variants: {
+    reduced: {
+      opacity: 0
+    },
+    expanded: {
+      opacity: [
+        0,
+        0,
+        .9
+      ],
+      transition: {
+        times: [0, .5, 1],
+        delay: .4,
+        duration: .5
+      }
+    }
+  }
+};
 
 export {
   fadeCascate,
@@ -162,5 +239,8 @@ export {
   fadeWithDelay,
   zeroGravity,
   zeroGravityReverse,
-  fadeOutToBottom
+  fadeOutToBottom,
+  moveNavigationToRight,
+  moveOnNavigationChange,
+  fadeNavigationOverlay
 };
