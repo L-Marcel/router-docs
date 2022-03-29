@@ -52,6 +52,7 @@ function OwnerNavigation() {
           allowMultiple
           defaultIndex={[]}
           as={Reorder.Group}
+          w="100%"
           axis="y"
           values={project?.versions} 
           onReorder={handleOnChangeVersionOrder}

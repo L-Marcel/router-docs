@@ -6,9 +6,14 @@ declare type Err = { message: string; };
 declare type User = import("@prisma/client").User;
 declare type Project = import("@prisma/client").Project;
 declare type ProjectVersion = import("@prisma/client").ProjectVersion;
+declare type Route = import("@prisma/client").Route;
 
 declare interface ProjectWithVersions extends Project {
-  versions: ProjectVersion[]
+  versions: ProjectVersion[] | ProjectVersionWithRoutes[];
+};
+
+declare interface ProjectVersionWithRoutes extends ProjectVersion {
+  routes: Route[];
 };
 
 declare interface ReqWithUser extends Req {
@@ -87,6 +92,8 @@ declare type ProjectOwnerContext = {
   changeShowNavigation: () => void;
   project: ProjectWithVersions;
   setProject: (project: ProjectWithVersions) => void;
+  getRoutes: (versionId: string) => Route[];
+  setRoutes: (versionId: string, routes: Route[]) => void;
 };
 
 declare interface SelectOption {

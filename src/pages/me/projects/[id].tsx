@@ -19,6 +19,7 @@ function ProjectPage({ project }: ProjectProps) {
   const { setProject, project: _project } = usePOProject();
 
   useEffect(() => {
+
     setProject(project);
   }, [project]);
 
@@ -57,20 +58,32 @@ export const getStaticPaths: GetStaticPaths = async() => {
 
 export const getStaticProps: GetStaticProps = async({ params }) => {
   const { id } = params;
-  const project = await api.get<Project>(`/projects/${id}`)
+
+  const project = await api.get<ProjectWithVersions>(`/projects/${id}`)
   .then(res => res.data).catch(() => false);
   
-  if(!project) {
+  if(!project || typeof project === "boolean") {
     return {
       notFound: true
     };
   };
-  
-  console.log(project);
+
+  const versions = await Promise.all(project.versions.map(async(v) => {
+    const routes: Route[] = await api.get(`/projects/routes/${v.id}`)
+    .then(res => res.data?.routes).catch(() => false);
+
+    return {
+      ...v,
+      routes
+    };
+  }));
 
   return {
     props: {
-      project
+      project: {
+        ...project,
+        versions
+      }
     }
   };
 };

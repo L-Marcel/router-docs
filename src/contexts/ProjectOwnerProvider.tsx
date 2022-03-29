@@ -21,6 +21,34 @@ function ProjectOwnerProvider({ children }) {
     setProject(project);
   }, [setProject]);
 
+  const _getRoutes = useCallback((versionId: string) => {
+    const versions = project.versions as ProjectVersionWithRoutes[];
+
+    try {
+      const version = versions.find(v => v.id === versionId);
+
+      return version.routes;
+    } catch (error) {
+      console.log(error);
+      return [];
+    };
+  }, [project]);
+
+  const _setRoutes = useCallback((versionId: string, routes: Route[]) => {
+    const versions = project.versions as ProjectVersionWithRoutes[];
+
+    setProject({
+      ...project,
+      versions: versions.map(v => {
+        if(v.id === versionId) {
+          v.routes = routes;
+        };
+  
+        return v;
+      })
+    });
+  }, [project, setProject]);
+
   
   useEffect(() => {
     setShowNavigation(!isSmallVersion);
@@ -33,7 +61,9 @@ function ProjectOwnerProvider({ children }) {
         showNavigation,
         changeShowNavigation: _changeShowNavigation,
         project,
-        setProject: _setProject
+        setProject: _setProject,
+        getRoutes: _getRoutes,
+        setRoutes: _setRoutes
       }}
     >
       {children}

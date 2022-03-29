@@ -1,7 +1,9 @@
-import { AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, HStack, Icon, Tag, Text, Tooltip } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel,  HStack, Icon, Tag, Text, Tooltip } from "@chakra-ui/react";
 import { Reorder, useDragControls } from "framer-motion";
 import { useState } from "react";
 import { BsFillGrid3X3GapFill } from "react-icons/bs";
+import { usePORoutes } from "../../contexts/hooks/ProjectOwner/usePORoutes";
+import { OwnerNavigationRouteItem } from "./OwnerNavigationRouteItem";
 
 interface OwnerNavigationVersionItemProps {
   projectVersion: ProjectVersion;
@@ -12,7 +14,13 @@ function OwnerNavigationVersionItem({
 }: OwnerNavigationVersionItemProps) {
   const controls = useDragControls();
   const [isGrabbing, setIsGrabbing] = useState(false);
-  const { version } = projectVersion;
+  const { version, id: versionId } = projectVersion;
+  const { getRoutes, setRoutes } = usePORoutes();
+  const routes = getRoutes(versionId);
+
+  function handleOnChangeRouteOrder(routes: Route[]) {
+    setRoutes(versionId, routes);
+  };
 
   return (
     <AccordionItem 
@@ -53,7 +61,7 @@ function OwnerNavigationVersionItem({
                   bgColor="gray.200"
                   color="primary.500"
                 >
-                  0
+                  {routes?.length}
                 </Tag>
               </Tooltip>
               <Text
@@ -78,9 +86,27 @@ function OwnerNavigationVersionItem({
               }}
             /> }
           </AccordionButton>
-          <AccordionPanel>
+          {routes?.length > 0? <AccordionPanel
+            borderTop="2px solid"
+            borderColor="gray.200"
+            w="100%"
+            display="flex"
+            flexDir="column"
+            p={0}
+            as={Reorder.Group}
+            axis="y"
+            values={routes} 
+            onReorder={handleOnChangeRouteOrder}
+          >
+            {routes.map(r => 
+              <OwnerNavigationRouteItem 
+                route={r}
+                key={r.id}
+              />
+            )}
+          </AccordionPanel>:<AccordionPanel>
             
-          </AccordionPanel>
+          </AccordionPanel>}
         </>
       )}
     </AccordionItem>
