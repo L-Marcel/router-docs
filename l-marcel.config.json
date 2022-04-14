@@ -1,5 +1,6 @@
 {
   "name": "Router Docs: Autogen",
+  "translatedDescription": "[Pausado] Um aplicativo para automatizar a produção de documentação de algumas APIs.",
   "technologies": [
     "Next.js",
     "React.js",
